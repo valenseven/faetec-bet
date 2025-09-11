@@ -4,7 +4,13 @@
 <meta charset="UTF-8">
 <title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
 <style>
-  /* Vídeo de fundo */
+  html, body {
+    overflow-x: hidden;
+    touch-action: manipulation;
+    margin: 0;
+    padding: 0;
+  }
+
   #bg-video {
     position: fixed;
     top: 0;
@@ -20,25 +26,19 @@
     text-align: center;
     color: #fff;
     height: 100vh;
-    margin: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
-    overflow: hidden;
   }
 
-  h1 {
-    margin-top: 20px;
-    font-size: 75px;
-    color: gold;
-    text-shadow: 2px 2px 8px black, 0 0 10px gold, 0 0 20px orange;
-    animation: glow 2s infinite alternate;
-  }
-
-  @keyframes glow {
-    from { text-shadow: 2px 2px 8px black, 0 0 10px gold, 0 0 20px orange; }
-    to { text-shadow: 2px 2px 12px black, 0 0 15px gold, 0 0 30px orange; }
+  #logo-video {
+    width: 450px;
+    max-width: 95%;
+    margin: 20px auto;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0 0 25px gold, 0 0 40px orange;
   }
 
   #slot {
@@ -84,34 +84,14 @@
     transition: all 0.2s;
   }
 
-  button:hover:enabled {
-    background: orange;
-    transform: scale(1.1);
-  }
-
   button:disabled {
     background: gray;
     cursor: not-allowed;
-    transform: none;
   }
 
-  #volume-btn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    padding: 10px 15px;
-    font-size: 18px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.6);
-    color: gold;
-    border: 2px solid gold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-    transition: transform 0.2s;
-  }
-
-  #volume-btn:hover {
-    transform: scale(1.2);
+  button:hover:enabled {
+    background: orange;
+    transform: scale(1.1);
   }
 
   #message {
@@ -133,6 +113,15 @@
     0% { transform: scale(1); }
     50% { transform: scale(1.15); }
     100% { transform: scale(1); }
+  }
+
+  #music-button {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    font-size: 18px;
+    padding: 8px 12px;
   }
 
   #footer {
@@ -175,7 +164,10 @@
 <body>
 <video autoplay muted loop id="bg-video">
   <source src="videocassino.mp4" type="video/mp4">
-  Seu navegador não suporta vídeo em HTML5.
+</video>
+
+<video id="logo-video" muted autoplay loop playsinline>
+  <source src="video_logo.mp4" type="video/mp4">
 </video>
 
 <audio id="bg-music" loop>
@@ -190,15 +182,13 @@
   <source src="musica_vitoria.mp3" type="audio/mp3">
 </audio>
 
-<!-- Botão volume -->
-<button id="volume-btn">🔇</button>
+<button id="music-button" onclick="toggleMusic()">🔇</button>
 
-<h1>🎰✨ FAETEC BET ✨🎰</h1>
 <div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
 
 <div>
-  <input type="number" id="bet" placeholder="Valor da aposta" min="1" value="10">
-  <button id="play-btn" onclick="play()">🎲 Jogar</button>
+  <input type="number" id="bet" placeholder="Valor da aposta" min="1" value="" oninput="checkBet()">
+  <button id="play-button" onclick="play()" disabled>🎲 Jogar</button>
 </div>
 
 <div id="slot">
@@ -221,54 +211,77 @@
 
 <script>
 let balance = 1000;
+let musicStarted = false;
+let musicOn = false;
+let spinning = false;
 const winChanceLevel = 3; // 1-10
 const weightedSymbols = ["♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","❤️","❤️","🃏"];
 const multipliers = {"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
 
-// 🎵 Controle do volume
-const bgMusic = document.getElementById("bg-music");
-const volumeBtn = document.getElementById("volume-btn");
-let musicOn = false;
-
-volumeBtn.addEventListener("click", () => {
-  if (musicOn) {
-    bgMusic.pause();
-    volumeBtn.textContent = "🔇";
-  } else {
-    bgMusic.play().catch(e=>console.log(e));
-    volumeBtn.textContent = "🔊";
-  }
-  musicOn = !musicOn;
-});
+const playBtn = document.getElementById("play-button");
+const betInput = document.getElementById("bet");
+const messageDiv = document.getElementById("message");
 
 function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
 
+function toggleMusic(){
+  const bgMusic = document.getElementById("bg-music");
+  const btn = document.getElementById("music-button");
+  if(bgMusic.paused){
+    bgMusic.play().catch(e=>console.log(e));
+    btn.innerText = "🔊";
+    musicOn = true;
+  }else{
+    bgMusic.pause();
+    btn.innerText = "🔇";
+    musicOn = false;
+  }
+}
+
+function checkBet(){
+  const bet = parseInt(betInput.value);
+  // Habilita o botão apenas se aposta for preenchida e <= saldo
+  if(!betInput.value || bet > balance || bet <= 0 || balance <= 0){
+    playBtn.disabled = true;
+  }else{
+    playBtn.disabled = false;
+    messageDiv.innerText = "";
+  }
+}
+
 function play() {
-  const playBtn = document.getElementById("play-btn");
-  playBtn.disabled = true; // 🔒 bloqueia o botão até o resultado
+  const bet = parseInt(betInput.value);
+  if(spinning) return;
+  if(!bet || bet > balance){
+    messageDiv.innerText = "⚠️ Saldo insuficiente!";
+    playBtn.disabled = true;
+    return;
+  }
+  if(bet <= 0){
+    alert("Aposta inválida!");
+    return;
+  }
+
+  spinning = true;
+  playBtn.disabled = true;
+
+  if(!musicStarted && musicOn){
+    document.getElementById("bg-music").play().catch(e=>console.log(e));
+    musicStarted = true;
+  }
 
   const spinSound = document.getElementById("spin-sound");
   const winSound = document.getElementById("win-sound");
+  spinSound.pause(); spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e));
 
-  spinSound.pause();
-  spinSound.currentTime=0;
-  spinSound.play().catch(e=>console.log(e));
-
-  const bet = parseInt(document.getElementById("bet").value);
-  if(bet<=0||bet>balance){ alert("Aposta inválida!"); playBtn.disabled = false; return; }
-
-  const messageDiv=document.getElementById("message");
-  messageDiv.classList.remove("win-message"); 
-  messageDiv.innerText="Girando... 🎲";
+  messageDiv.classList.remove("win-message"); messageDiv.innerText="Girando... 🎲";
 
   const slotCells=document.querySelectorAll(".slot-cell");
-  const spinsPerSlot=[10,15,20]; 
-  let spinCounts=[0,0,0];
+  const spinsPerSlot=[10,15,20]; let spinCounts=[0,0,0];
   let finalResult=[];
 
   if(Math.random()*10<winChanceLevel){
-    const chosen=getRandomSymbol(); 
-    finalResult=[chosen,chosen,chosen];
+    const chosen=getRandomSymbol(); finalResult=[chosen,chosen,chosen];
   }else{
     finalResult=[getRandomSymbol(),getRandomSymbol(),getRandomSymbol()];
   }
@@ -278,9 +291,7 @@ function play() {
     slotCells.forEach((cell,index)=>{
       cell.classList.add("slot-spin");
       if(spinCounts[index]<spinsPerSlot[index]){
-        cell.innerText=getRandomSymbol(); 
-        spinCounts[index]++; 
-        allStopped=false;
+        cell.innerText=getRandomSymbol(); spinCounts[index]++; allStopped=false;
       }else{
         cell.innerText=finalResult[index];
       }
@@ -289,29 +300,28 @@ function play() {
     if(allStopped){
       clearInterval(interval);
       slotCells.forEach(cell=>cell.classList.remove("slot-spin"));
+
       if(finalResult[0]===finalResult[1]&&finalResult[1]===finalResult[2]){
         const symbol=finalResult[0];
-        const ganho=bet*multipliers[symbol]; 
-        balance+=ganho;
+        const ganho=bet*multipliers[symbol]; balance+=ganho;
         messageDiv.innerText=`🎉💥 PARABÉNS! VOCÊ GANHOU R$ ${ganho.toFixed(2)} 💥🎉`;
         messageDiv.classList.add("win-message");
-        winSound.currentTime=0; 
-        winSound.play().catch(e=>console.log(e));
+        winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
       }else{
-        balance-=bet; 
-        messageDiv.innerText="😢 Foi quase, tente novamente!"; 
+        balance-=bet;
+        messageDiv.innerText="😢 Foi quase, tente novamente!";
         messageDiv.classList.remove("win-message");
       }
-      document.getElementById("balance").innerText=balance;
-      if(balance<=0){ 
-        messageDiv.innerText="💀 Você perdeu todo o saldo!"; 
-        messageDiv.classList.remove("win-message"); 
-      }
 
-      playBtn.disabled = false; // 🔓 libera o botão de novo
+      document.getElementById("balance").innerText=balance;
+      spinning=false;
+      checkBet(); // desbloqueia o botão se possível
     }
   },150);
 }
+
+// Atualiza sempre que o input muda
+betInput.addEventListener("input", checkBet);
 </script>
 </body>
 </html>
