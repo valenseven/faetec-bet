@@ -224,8 +224,10 @@
         musicStarted = true;
       }
 
+      // Garante que o som do giro toque toda vez
+      spinSound.pause();
       spinSound.currentTime = 0;
-      spinSound.play();
+      spinSound.play().catch(e => console.log("Erro ao tocar som do giro:", e));
 
       const bet = parseInt(document.getElementById("bet").value);
       if (bet <= 0 || bet > balance) { alert("Aposta inválida!"); return; }
@@ -285,3 +287,5 @@
   </script>
 </body>
 </html>
+
+
