@@ -4,19 +4,13 @@
 <meta charset="UTF-8">
 <title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
 <style>
-  html, body {
-    overflow-x: hidden;
-    touch-action: manipulation;
-    margin: 0;
-    padding: 0;
-  }
-
+  /* Vídeo de fundo */
   #bg-video {
     position: fixed;
     top: 0;
     left: 0;
-    min-width: 100%;
-    min-height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     z-index: -1;
   }
@@ -25,20 +19,34 @@
     font-family: Arial, sans-serif;
     text-align: center;
     color: #fff;
-    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  /* Logo em vídeo responsiva com borda dourada piscante */
+  #logo-container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    position: relative;
+    margin: 20px auto;
+    border: 5px solid gold;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    overflow: hidden;
+    animation: borderGlow 1s infinite alternate;
+  }
+
+  @keyframes borderGlow {
+    0% { border-color: gold; box-shadow: 0 0 15px gold; }
+    50% { border-color: orange; box-shadow: 0 0 25px orange; }
+    100% { border-color: gold; box-shadow: 0 0 15px gold; }
   }
 
   #logo-video {
-    width: 450px;
-    max-width: 95%;
-    margin: 20px auto;
+    width: 100%;
+    height: auto;
     display: block;
-    border-radius: 15px;
-    box-shadow: 0 0 25px gold, 0 0 40px orange;
   }
 
   #slot {
@@ -51,9 +59,9 @@
   }
 
   .slot-cell {
-    padding: 20px 40px;
-    border-left: 4px solid gold;
-    border-right: 4px solid gold;
+    padding: 15px 30px;
+    border-left: 3px solid gold;
+    border-right: 3px solid gold;
     text-shadow: 2px 2px 6px black;
     background: rgba(0,0,0,0.4);
     border-radius: 12px;
@@ -66,13 +74,13 @@
 
   .slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
 
-  .balance { font-size: 18px; margin: 10px; }
+  .balance { font-size: 16px; margin: 10px; }
 
   input, button {
-    padding: 10px;
-    font-size: 16px;
-    margin: 10px;
-    border-radius: 10px;
+    padding: 8px;
+    font-size: 14px;
+    margin: 5px;
+    border-radius: 8px;
     border: none;
   }
 
@@ -84,15 +92,45 @@
     transition: all 0.2s;
   }
 
-  button:disabled {
-    background: gray;
-    cursor: not-allowed;
+  button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
+  button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
+
+  /* Botão de volume igual ao de jogar */
+  #volume-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    background: gold;
+    padding: 5px 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
   }
 
-  button:hover:enabled {
-    background: orange;
-    transform: scale(1.1);
+  #volume-text {
+    font-weight: bold;
+    margin-right: 5px;
+    color: black;
   }
+
+  #volume-btn {
+    font-size: 22px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: black;
+    background: gold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  }
+
+  #volume-btn:hover { background: orange; transform: scale(1.05); }
 
   #message {
     margin-top: 15px;
@@ -109,66 +147,47 @@
     animation: flash 0.8s infinite alternate;
   }
 
+  .lose-message {
+    font-size: 36px;
+    color: red;
+    font-weight: bold;
+    text-shadow: 2px 2px 6px black, 0 0 10px darkred;
+    animation: flashLose 0.8s infinite alternate;
+  }
+
   @keyframes flash {
     0% { transform: scale(1); }
     50% { transform: scale(1.15); }
     100% { transform: scale(1); }
   }
 
-  #music-button {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 10;
-    font-size: 18px;
-    padding: 8px 12px;
+  @keyframes flashLose {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
   }
 
-  #footer {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    font-size: 14px;
-    color: white;
-    text-shadow: 1px 1px 3px black;
-  }
+  #footer { position: fixed; bottom: 10px; right: 10px; font-size: 14px; color: white; text-shadow: 1px 1px 3px black; }
 
-  table {
-    margin: 20px auto;
-    border-collapse: collapse;
-    background: rgba(0,0,0,0.6);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  table th, table td {
-    padding: 12px 20px;
-    border: 1px solid gold;
-    color: white;
-    text-shadow: 1px 1px 3px black;
-  }
-
-  table th {
-    background: gold;
-    color: black;
-    font-weight: bold;
-  }
-
-  .spade { color: white; }
-  .diamond { color: #1E90FF; }
-  .club { color: #32CD32; }
-  .heart { color: red; }
-  .joker { color: purple; font-weight: bold; }
+  table { margin: 15px auto; border-collapse: collapse; background: rgba(0,0,0,0.6); border-radius: 8px; overflow: hidden; font-size: 14px;}
+  table th, table td { padding: 8px 15px; border: 1px solid gold; color: white; text-shadow: 1px 1px 2px black; }
+  table th { background: gold; color: black; font-weight: bold; }
+  .spade { color: white; } .diamond { color: #1E90FF; } .club { color: #32CD32; } .heart { color: red; } .joker { color: purple; font-weight: bold; }
 </style>
 </head>
 <body>
+
 <video autoplay muted loop id="bg-video">
   <source src="videocassino.mp4" type="video/mp4">
 </video>
 
-<video id="logo-video" muted autoplay loop playsinline>
-  <source src="video_logo.mp4" type="video/mp4">
-</video>
+<!-- Container da logo com borda dourada piscante -->
+<div id="logo-container">
+  <video id="logo-video" autoplay loop muted>
+    <source src="video_logo.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo em HTML5.
+  </video>
+</div>
 
 <audio id="bg-music" loop>
   <source src="musica_fundo.mp3" type="audio/mp3">
@@ -182,13 +201,17 @@
   <source src="musica_vitoria.mp3" type="audio/mp3">
 </audio>
 
-<button id="music-button" onclick="toggleMusic()">🔇</button>
-
 <div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
 
+<!-- Botão de música com texto -->
+<div id="volume-container">
+  <span id="volume-text">Música:</span>
+  <button id="volume-btn" onclick="toggleMusic()">🔇</button>
+</div>
+
 <div>
-  <input type="number" id="bet" placeholder="Valor da aposta" min="1" value="" oninput="checkBet()">
-  <button id="play-button" onclick="play()" disabled>🎲 Jogar</button>
+  <input type="number" id="bet" placeholder="Valor da aposta" min="1">
+  <button id="play-button" onclick="play()">🎲 Jogar</button>
 </div>
 
 <div id="slot">
@@ -196,6 +219,7 @@
   <div class="slot-cell">❓</div>
   <div class="slot-cell">❓</div>
 </div>
+
 <div id="message"></div>
 
 <table>
@@ -211,118 +235,94 @@
 
 <script>
 let balance = 1000;
-let musicStarted = false;
 let musicOn = false;
 let spinning = false;
-const winChanceLevel = 3; // 1-10
+const winChanceLevel = 3;
 const weightedSymbols = ["♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","❤️","❤️","🃏"];
 const multipliers = {"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
 
 const playBtn = document.getElementById("play-button");
 const betInput = document.getElementById("bet");
-const messageDiv = document.getElementById("message");
+const volumeBtn = document.getElementById("volume-btn");
+const bgMusic = document.getElementById("bg-music");
+
+function toggleMusic(){
+  if(musicOn){ bgMusic.pause(); volumeBtn.innerText="🔇"; musicOn=false; }
+  else{ bgMusic.play().catch(e=>console.log(e)); volumeBtn.innerText="🔊"; musicOn=true; }
+}
+
+// Checar se o botão jogar deve estar habilitado
+function checkBet(){
+  const bet = parseInt(betInput.value);
+  if(spinning || !bet || bet > balance){ playBtn.disabled=true; }
+  else{ playBtn.disabled=false; }
+}
 
 function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
 
-function toggleMusic(){
-  const bgMusic = document.getElementById("bg-music");
-  const btn = document.getElementById("music-button");
-  if(bgMusic.paused){
-    bgMusic.play().catch(e=>console.log(e));
-    btn.innerText = "🔊";
-    musicOn = true;
-  }else{
-    bgMusic.pause();
-    btn.innerText = "🔇";
-    musicOn = false;
-  }
-}
-
-function checkBet(){
-  const bet = parseInt(betInput.value);
-  // Habilita o botão apenas se aposta for preenchida e <= saldo
-  if(!betInput.value || bet > balance || bet <= 0 || balance <= 0){
-    playBtn.disabled = true;
-  }else{
-    playBtn.disabled = false;
-    messageDiv.innerText = "";
-  }
-}
-
-function play() {
-  const bet = parseInt(betInput.value);
+function play(){
   if(spinning) return;
-  if(!bet || bet > balance){
-    messageDiv.innerText = "⚠️ Saldo insuficiente!";
-    playBtn.disabled = true;
-    return;
-  }
-  if(bet <= 0){
-    alert("Aposta inválida!");
-    return;
-  }
-
-  spinning = true;
-  playBtn.disabled = true;
-
-  if(!musicStarted && musicOn){
-    document.getElementById("bg-music").play().catch(e=>console.log(e));
-    musicStarted = true;
-  }
-
   const spinSound = document.getElementById("spin-sound");
   const winSound = document.getElementById("win-sound");
-  spinSound.pause(); spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e));
 
-  messageDiv.classList.remove("win-message"); messageDiv.innerText="Girando... 🎲";
+  let bet = parseInt(betInput.value);
+  if(!bet || bet<=0 || bet>balance){ return; }
 
-  const slotCells=document.querySelectorAll(".slot-cell");
-  const spinsPerSlot=[10,15,20]; let spinCounts=[0,0,0];
+  spinning=true;
+  checkBet();
+  spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e));
+
+  const messageDiv = document.getElementById("message");
+  messageDiv.classList.remove("win-message","lose-message");
+  messageDiv.innerText="Girando... 🎲";
+
+  const slotCells = document.querySelectorAll(".slot-cell");
+  const spinsPerSlot = [10,15,20];
+  let spinCounts=[0,0,0];
   let finalResult=[];
 
   if(Math.random()*10<winChanceLevel){
-    const chosen=getRandomSymbol(); finalResult=[chosen,chosen,chosen];
-  }else{
+    const chosen=getRandomSymbol();
+    finalResult=[chosen,chosen,chosen];
+  } else{
     finalResult=[getRandomSymbol(),getRandomSymbol(),getRandomSymbol()];
   }
 
-  const interval=setInterval(()=>{
+  const interval = setInterval(()=>{
     let allStopped=true;
     slotCells.forEach((cell,index)=>{
       cell.classList.add("slot-spin");
       if(spinCounts[index]<spinsPerSlot[index]){
         cell.innerText=getRandomSymbol(); spinCounts[index]++; allStopped=false;
-      }else{
-        cell.innerText=finalResult[index];
-      }
+      } else{ cell.innerText=finalResult[index]; }
     });
 
     if(allStopped){
       clearInterval(interval);
       slotCells.forEach(cell=>cell.classList.remove("slot-spin"));
 
-      if(finalResult[0]===finalResult[1]&&finalResult[1]===finalResult[2]){
+      if(finalResult[0]===finalResult[1] && finalResult[1]===finalResult[2]){
         const symbol=finalResult[0];
         const ganho=bet*multipliers[symbol]; balance+=ganho;
         messageDiv.innerText=`🎉💥 PARABÉNS! VOCÊ GANHOU R$ ${ganho.toFixed(2)} 💥🎉`;
         messageDiv.classList.add("win-message");
         winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
-      }else{
+      } else{
         balance-=bet;
         messageDiv.innerText="😢 Foi quase, tente novamente!";
-        messageDiv.classList.remove("win-message");
+        messageDiv.classList.add("lose-message");
       }
 
       document.getElementById("balance").innerText=balance;
       spinning=false;
-      checkBet(); // desbloqueia o botão se possível
+      checkBet();
     }
   },150);
 }
 
-// Atualiza sempre que o input muda
 betInput.addEventListener("input", checkBet);
+checkBet();
 </script>
+
 </body>
 </html>
-
