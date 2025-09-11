@@ -1,291 +1,306 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
-  <style>
-    /* Vídeo de fundo */
-    #bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
+<meta charset="UTF-8">
+<title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
+<style>
+  /* Vídeo de fundo */
+  #bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
 
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      color: #fff;
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-    }
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: #fff;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
 
-    h1 {
-      margin-top: 20px;
-      font-size: 70px;
-      color: rgb(255, 215, 0);
-      text-shadow: 2px 2px 8px black, 0 0 10px gold, 0 0 20px orange;
-      animation: glow 2s infinite alternate;
-    }
+  h1 {
+    margin-top: 20px;
+    font-size: 75px;
+    color: gold;
+    text-shadow: 2px 2px 8px black, 0 0 10px gold, 0 0 20px orange;
+    animation: glow 2s infinite alternate;
+  }
 
-    @keyframes glow {
-      from { text-shadow: 2px 2px 8px black, 0 0 10px gold, 0 0 20px orange; }
-      to { text-shadow: 2px 2px 10px black, 0 0 15px gold, 0 0 30px orange; }
-    }
+  @keyframes glow {
+    from { text-shadow: 2px 2px 8px black, 0 0 10px gold, 0 0 20px orange; }
+    to { text-shadow: 2px 2px 12px black, 0 0 15px gold, 0 0 30px orange; }
+  }
 
-    #slot {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 60px;
-      margin: 20px 0;
-      gap: 0;
-    }
+  #slot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    margin: 20px 0;
+    gap: 10px;
+  }
 
-    .slot-cell {
-      padding: 20px 40px;
-      border-left: 4px solid gold;
-      border-right: 4px solid gold;
-      text-shadow: 2px 2px 6px black;
-      background: rgba(0,0,0,0.3);
-      border-radius: 10px;
-      margin: 0 2px;
-    }
+  .slot-cell {
+    padding: 20px 40px;
+    border-left: 4px solid gold;
+    border-right: 4px solid gold;
+    text-shadow: 2px 2px 6px black;
+    background: rgba(0,0,0,0.4);
+    border-radius: 12px;
+    margin: 0 2px;
+    transition: transform 0.2s, background 0.3s;
+  }
 
-    .slot-cell:first-child { border-left: none; }
-    .slot-cell:last-child { border-right: none; }
+  .slot-cell:first-child { border-left: none; }
+  .slot-cell:last-child { border-right: none; }
 
-    .balance {
-      font-size: 18px; /* menor e proporcional */
-      margin: 10px;
-    }
+  .slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
 
-    input, button {
-      padding: 10px;
-      font-size: 16px;
-      margin: 10px;
-      border-radius: 10px;
-      border: none;
-    }
+  .balance { font-size: 18px; margin: 10px; }
 
-    button {
-      background: gold;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-    }
+  input, button {
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+  }
 
-    button:hover {
-      background: orange;
-    }
+  button {
+    background: gold;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    transition: all 0.2s;
+  }
 
-    #message {
-      margin-top: 15px;
-      font-size: 18px;
-      text-shadow: 1px 1px 4px black;
-      transition: all 0.3s ease;
-    }
+  button:hover {
+    background: orange;
+    transform: scale(1.1);
+  }
 
-    .win-message {
-      font-size: 48px;
-      color: gold;
-      font-weight: bold;
-      text-shadow: 2px 2px 8px black, 0 0 15px gold, 0 0 25px orange;
-      animation: flash 0.8s infinite alternate;
-    }
+  #volume-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    padding: 10px 15px;
+    font-size: 18px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.6);
+    color: gold;
+    border: 2px solid gold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+    transition: transform 0.2s;
+  }
 
-    @keyframes flash {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
+  #volume-btn:hover {
+    transform: scale(1.2);
+  }
 
-    #footer {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      font-size: 14px;
-      color: white;
-      text-shadow: 1px 1px 3px black;
-    }
+  #message {
+    margin-top: 15px;
+    font-size: 20px;
+    text-shadow: 1px 1px 4px black;
+    transition: all 0.3s ease;
+  }
 
-    table {
-      margin: 20px auto;
-      border-collapse: collapse;
-      background: rgba(0,0,0,0.5);
-      border-radius: 10px;
-      overflow: hidden;
-    }
+  .win-message {
+    font-size: 50px;
+    color: gold;
+    font-weight: bold;
+    text-shadow: 2px 2px 10px black, 0 0 15px gold, 0 0 25px orange;
+    animation: flash 0.8s infinite alternate;
+  }
 
-    table th, table td {
-      padding: 12px 20px;
-      border: 1px solid gold;
-      color: white;
-      text-shadow: 1px 1px 3px black;
-    }
+  @keyframes flash {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
 
-    table th {
-      background: gold;
-      color: black;
-      font-weight: bold;
-    }
+  #footer {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: white;
+    text-shadow: 1px 1px 3px black;
+  }
 
-    .spade { color: rgb(255, 255, 255); }
-    .diamond { color: #1E90FF; }
-    .club { color: #32CD32; }
-    .heart { color: red; }
-    .joker { color: purple; font-weight: bold; }
-  </style>
+  table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: rgba(0,0,0,0.6);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  table th, table td {
+    padding: 12px 20px;
+    border: 1px solid gold;
+    color: white;
+    text-shadow: 1px 1px 3px black;
+  }
+
+  table th {
+    background: gold;
+    color: black;
+    font-weight: bold;
+  }
+
+  .spade { color: white; }
+  .diamond { color: #1E90FF; }
+  .club { color: #32CD32; }
+  .heart { color: red; }
+  .joker { color: purple; font-weight: bold; }
+</style>
 </head>
 <body>
-  <!-- Vídeo de fundo -->
-  <video autoplay muted loop id="bg-video">
-    <source src="videocassino.mp4" type="video/mp4">
-    Seu navegador não suporta vídeo em HTML5.
-  </video>
+<video autoplay muted loop id="bg-video">
+  <source src="videocassino.mp4" type="video/mp4">
+  Seu navegador não suporta vídeo em HTML5.
+</video>
 
-  <!-- Música de fundo -->
-  <audio id="bg-music" loop>
-    <source src="musica_fundo.mp3" type="audio/mp3">
-  </audio>
+<audio id="bg-music" loop>
+  <source src="musica_fundo.mp3" type="audio/mp3">
+</audio>
 
-  <!-- Música do giro -->
-  <audio id="spin-sound">
-    <source src="musica_giro.mp3" type="audio/mp3">
-  </audio>
+<audio id="spin-sound">
+  <source src="musica_giro.mp3" type="audio/mp3">
+</audio>
 
-  <h1>🎰✨ FAETEC BET ✨🎰</h1>
-  <div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
-  
-  <div>
-    <input type="number" id="bet" placeholder="Valor da aposta" min="1" value="10">
-    <button onclick="play()">🎲 Jogar</button>
-  </div>
+<audio id="win-sound">
+  <source src="musica_vitoria.mp3" type="audio/mp3">
+</audio>
 
-  <div id="slot">
-    <div class="slot-cell">❓</div>
-    <div class="slot-cell">❓</div>
-    <div class="slot-cell">❓</div>
-  </div>
-  <div id="message"></div>
+<!-- Botão volume -->
+<button id="volume-btn">🔇</button>
 
-  <!-- Tabela de multiplicadores -->
-  <table>
-    <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
-    <tr><td class="spade">♠️ (mais fácil)</td><td>x1.5</td></tr>
-    <tr><td class="diamond">♦️ (fácil)</td><td>x2</td></tr>
-    <tr><td class="club">🧧 (médio)</td><td>x2.5</td></tr>
-    <tr><td class="heart">❤️ (difícil)</td><td>x3</td></tr>
-    <tr><td class="joker">🃏 (mais difícil)</td><td>x5</td></tr>
-  </table>
+<h1>🎰✨ FAETEC BET ✨🎰</h1>
+<div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
 
-  <div id="footer">📚 Projeto escolar - FAETEC</div>
+<div>
+  <input type="number" id="bet" placeholder="Valor da aposta" min="1" value="10">
+  <button onclick="play()">🎲 Jogar</button>
+</div>
 
-  <script>
-    let balance = 1000;
-    let musicStarted = false;
+<div id="slot">
+  <div class="slot-cell">❓</div>
+  <div class="slot-cell">❓</div>
+  <div class="slot-cell">❓</div>
+</div>
+<div id="message"></div>
 
-    const winChanceLevel = 3; // de 1 a 10, maior = mais chance de vitória
+<table>
+<tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
+<tr><td class="spade">♠️ (mais fácil)</td><td>x1.5</td></tr>
+<tr><td class="diamond">♦️ (fácil)</td><td>x2</td></tr>
+<tr><td class="club">🧧 (médio)</td><td>x2.5</td></tr>
+<tr><td class="heart">❤️ (difícil)</td><td>x3</td></tr>
+<tr><td class="joker">🃏 (mais difícil)</td><td>x5</td></tr>
+</table>
 
-    const weightedSymbols = [
-      "♠️","♠️","♠️","♠️","♠️","♠️",
-      "♦️","♦️","♦️","♦️",
-      "🧧","🧧","🧧",
-      "❤️","❤️",
-      "🃏"
-    ];
+<div id="footer">📚 Projeto escolar - FAETEC</div>
 
-    const multipliers = {
-      "♠️": 1.5,
-      "♦️": 2,
-      "🧧": 2.5,
-      "❤️": 3,
-      "🃏": 5
-    };
+<script>
+let balance = 1000;
+const winChanceLevel = 3; // 1-10
+const weightedSymbols = ["♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","❤️","❤️","🃏"];
+const multipliers = {"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
 
-    function getRandomSymbol() {
-      return weightedSymbols[Math.floor(Math.random() * weightedSymbols.length)];
-    }
+// 🎵 Controle do volume
+const bgMusic = document.getElementById("bg-music");
+const volumeBtn = document.getElementById("volume-btn");
+let musicOn = false;
 
-    function play() {
-      const bgMusic = document.getElementById("bg-music");
-      const spinSound = document.getElementById("spin-sound");
+volumeBtn.addEventListener("click", () => {
+  if (musicOn) {
+    bgMusic.pause();
+    volumeBtn.textContent = "🔇";
+  } else {
+    bgMusic.play().catch(e=>console.log(e));
+    volumeBtn.textContent = "🔊";
+  }
+  musicOn = !musicOn;
+});
 
-      // Inicia música de fundo na primeira interação
-      if (!musicStarted) {
-        bgMusic.play().catch(e => console.log("Clique para iniciar áudio:", e));
-        musicStarted = true;
+function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
+
+function play() {
+  const spinSound = document.getElementById("spin-sound");
+  const winSound = document.getElementById("win-sound");
+
+  spinSound.pause();
+  spinSound.currentTime=0;
+  spinSound.play().catch(e=>console.log(e));
+
+  const bet = parseInt(document.getElementById("bet").value);
+  if(bet<=0||bet>balance){ alert("Aposta inválida!"); return; }
+
+  const messageDiv=document.getElementById("message");
+  messageDiv.classList.remove("win-message"); 
+  messageDiv.innerText="Girando... 🎲";
+
+  const slotCells=document.querySelectorAll(".slot-cell");
+  const spinsPerSlot=[10,15,20]; 
+  let spinCounts=[0,0,0];
+  let finalResult=[];
+
+  if(Math.random()*10<winChanceLevel){
+    const chosen=getRandomSymbol(); 
+    finalResult=[chosen,chosen,chosen];
+  }else{
+    finalResult=[getRandomSymbol(),getRandomSymbol(),getRandomSymbol()];
+  }
+
+  const interval=setInterval(()=>{
+    let allStopped=true;
+    slotCells.forEach((cell,index)=>{
+      cell.classList.add("slot-spin");
+      if(spinCounts[index]<spinsPerSlot[index]){
+        cell.innerText=getRandomSymbol(); 
+        spinCounts[index]++; 
+        allStopped=false;
+      }else{
+        cell.innerText=finalResult[index];
       }
+    });
 
-      // Garante que o som do giro toque toda vez
-      spinSound.pause();
-      spinSound.currentTime = 0;
-      spinSound.play().catch(e => console.log("Erro ao tocar som do giro:", e));
-
-      const bet = parseInt(document.getElementById("bet").value);
-      if (bet <= 0 || bet > balance) { alert("Aposta inválida!"); return; }
-
-      const messageDiv = document.getElementById("message");
-      messageDiv.classList.remove("win-message");
-      messageDiv.innerText = "Girando... 🎲";
-
-      const slotCells = document.querySelectorAll(".slot-cell");
-      const spinsPerSlot = [10, 15, 20];
-      let spinCounts = [0, 0, 0];
-
-      let finalResult = [];
-      if (Math.random() * 10 < winChanceLevel) {
-        const chosen = getRandomSymbol();
-        finalResult = [chosen, chosen, chosen];
-      } else {
-        finalResult = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
+    if(allStopped){
+      clearInterval(interval);
+      slotCells.forEach(cell=>cell.classList.remove("slot-spin"));
+      if(finalResult[0]===finalResult[1]&&finalResult[1]===finalResult[2]){
+        const symbol=finalResult[0];
+        const ganho=bet*multipliers[symbol]; 
+        balance+=ganho;
+        messageDiv.innerText=`🎉💥 PARABÉNS! VOCÊ GANHOU R$ ${ganho.toFixed(2)} 💥🎉`;
+        messageDiv.classList.add("win-message");
+        winSound.currentTime=0; 
+        winSound.play().catch(e=>console.log(e));
+      }else{
+        balance-=bet; 
+        messageDiv.innerText="😢 Foi quase, tente novamente!"; 
+        messageDiv.classList.remove("win-message");
       }
-
-      const interval = setInterval(() => {
-        let allStopped = true;
-        slotCells.forEach((cell, index) => {
-          if (spinCounts[index] < spinsPerSlot[index]) {
-            cell.innerText = getRandomSymbol();
-            spinCounts[index]++;
-            allStopped = false;
-          } else {
-            cell.innerText = finalResult[index];
-          }
-        });
-
-        if (allStopped) {
-          clearInterval(interval);
-
-          if (finalResult[0] === finalResult[1] && finalResult[1] === finalResult[2]) {
-            const symbol = finalResult[0];
-            const ganho = bet * multipliers[symbol];
-            balance += ganho;
-            messageDiv.innerText = `🎉💥 PARABÉNS! VOCÊ GANHOU R$ ${ganho.toFixed(2)} 💥🎉`;
-            messageDiv.classList.add("win-message");
-          } else {
-            balance -= bet;
-            messageDiv.innerText = "😢 Foi quase, tente novamente!";
-            messageDiv.classList.remove("win-message");
-          }
-
-          document.getElementById("balance").innerText = balance;
-
-          if (balance <= 0) {
-            messageDiv.innerText = "💀 Você perdeu todo o saldo!";
-            messageDiv.classList.remove("win-message");
-          }
-        }
-      }, 150);
+      document.getElementById("balance").innerText=balance;
+      if(balance<=0){ 
+        messageDiv.innerText="💀 Você perdeu todo o saldo!"; 
+        messageDiv.classList.remove("win-message"); 
+      }
     }
-  </script>
+  },150);
+}
+</script>
 </body>
 </html>
-
-
