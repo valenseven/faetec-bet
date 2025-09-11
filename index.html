@@ -84,9 +84,15 @@
     transition: all 0.2s;
   }
 
-  button:hover {
+  button:hover:enabled {
     background: orange;
     transform: scale(1.1);
+  }
+
+  button:disabled {
+    background: gray;
+    cursor: not-allowed;
+    transform: none;
   }
 
   #volume-btn {
@@ -192,7 +198,7 @@
 
 <div>
   <input type="number" id="bet" placeholder="Valor da aposta" min="1" value="10">
-  <button onclick="play()">🎲 Jogar</button>
+  <button id="play-btn" onclick="play()">🎲 Jogar</button>
 </div>
 
 <div id="slot">
@@ -238,6 +244,9 @@ volumeBtn.addEventListener("click", () => {
 function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
 
 function play() {
+  const playBtn = document.getElementById("play-btn");
+  playBtn.disabled = true; // 🔒 bloqueia o botão até o resultado
+
   const spinSound = document.getElementById("spin-sound");
   const winSound = document.getElementById("win-sound");
 
@@ -246,7 +255,7 @@ function play() {
   spinSound.play().catch(e=>console.log(e));
 
   const bet = parseInt(document.getElementById("bet").value);
-  if(bet<=0||bet>balance){ alert("Aposta inválida!"); return; }
+  if(bet<=0||bet>balance){ alert("Aposta inválida!"); playBtn.disabled = false; return; }
 
   const messageDiv=document.getElementById("message");
   messageDiv.classList.remove("win-message"); 
@@ -298,9 +307,12 @@ function play() {
         messageDiv.innerText="💀 Você perdeu todo o saldo!"; 
         messageDiv.classList.remove("win-message"); 
       }
+
+      playBtn.disabled = false; // 🔓 libera o botão de novo
     }
   },150);
 }
 </script>
 </body>
 </html>
+
