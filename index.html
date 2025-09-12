@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
-
 <!-- Fonte Cassino -->
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
-
 <style>
-  /* Vídeo de fundo */
-  #bg-video {
+/* Vídeo de fundo */
+#bg-video {
     position: fixed;
     top: 0;
     left: 0;
@@ -17,19 +15,17 @@
     height: 100%;
     object-fit: cover;
     z-index: -1;
-  }
-
-  body {
+}
+body {
     font-family: Arial, sans-serif;
     text-align: center;
     color: #fff;
     margin: 0;
     overflow: hidden;
     touch-action: none;
-  }
-
-  /* Logo */
-  #logo-container {
+}
+/* Logo */
+#logo-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,31 +37,28 @@
     max-width: 90%;
     animation: borderGlow 1s infinite alternate;
     background: rgba(0,0,0,0.4);
-  }
-
-  #logo-text {
+}
+#logo-text {
     font-family: 'Cinzel Decorative', serif;
     font-size: 54px;
     font-weight: bold;
     color: gold;
     text-shadow: 0 0 6px gold, 0 0 12px orange;
     animation: shine 4s infinite linear;
-  }
-
-  @keyframes borderGlow {
+}
+@keyframes borderGlow {
     0% { border-color: gold; box-shadow: 0 0 10px gold; }
     50% { border-color: orange; box-shadow: 0 0 18px orange; }
     100% { border-color: gold; box-shadow: 0 0 10px gold; }
-  }
-
-  @keyframes shine {
+}
+@keyframes shine {
     0% { text-shadow: 0 0 6px gold, 0 0 12px orange; }
     50% { text-shadow: 0 0 12px gold, 0 0 20px orange; transform: scale(1.03); }
     100% { text-shadow: 0 0 6px gold, 0 0 12px orange; transform: scale(1); }
-  }
+}
 
-  /* Slot machine em grade 3x3 */
-  #slot {
+/* Slot machine em grade 3x3 */
+#slot {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 12px;
@@ -74,43 +67,39 @@
     font-size: 52px;
     margin: 30px auto;
     width: fit-content;
-  }
-
-  .slot-cell {
+}
+.slot-cell {
     padding: 20px;
     border: 4px solid gold;
     text-shadow: 2px 2px 6px black;
     background: rgba(0,0,0,0.4);
     border-radius: 14px;
     transition: transform 0.2s, background 0.3s;
-  }
+}
+.slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
+.slot-win { background: gold !important; color: black; font-weight: bold; }
 
-  .slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
-  .slot-win { background: gold !important; color: black; font-weight: bold; }
+.balance { font-size: 18px; margin: 10px; }
 
-  .balance { font-size: 18px; margin: 10px; }
-
-  input, button {
+input, button {
     padding: 8px;
     font-size: 16px;
     margin: 5px;
     border-radius: 8px;
     border: none;
-  }
-
-  button {
+}
+button {
     background: gold;
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
     transition: all 0.2s;
-  }
+}
+button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
+button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
-  button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
-  button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
-
-  /* Botão de volume */
-  #volume-container {
+/* Botão de volume */
+#volume-container {
     position: fixed;
     top: 10px;
     right: 10px;
@@ -120,16 +109,9 @@
     padding: 4px 8px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-  }
-
-  #volume-text {
-    font-weight: bold;
-    margin-right: 5px;
-    color: black;
-    font-size: 14px;
-  }
-
-  #volume-btn {
+}
+#volume-text { font-weight: bold; margin-right: 5px; color: black; font-size: 14px; }
+#volume-btn {
     font-size: 20px;
     width: 40px;
     height: 40px;
@@ -142,104 +124,108 @@
     background: gold;
     border: none;
     cursor: pointer;
-  }
+}
 
-  #message {
+#message {
     margin-top: 10px;
     font-size: 18px;
     text-shadow: 1px 1px 4px black;
     transition: all 0.3s ease;
-  }
+}
+.win-message { font-size: 36px; color: gold; font-weight: bold; text-shadow: 2px 2px 10px black, 0 0 15px gold, 0 0 25px orange; }
+.lose-message { font-size: 28px; color: red; font-weight: bold; text-shadow: 2px 2px 6px black, 0 0 10px darkred; }
 
-  .win-message {
-    font-size: 36px;
-    color: gold;
-    font-weight: bold;
-    text-shadow: 2px 2px 10px black, 0 0 15px gold, 0 0 25px orange;
-  }
+#footer {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 13px;
+    color: white;
+    text-shadow: 1px 1px 3px black;
+}
 
-  .lose-message {
-    font-size: 28px;
-    color: red;
-    font-weight: bold;
-    text-shadow: 2px 2px 6px black, 0 0 10px darkred;
-  }
-
-  #footer { position: fixed; bottom: 10px; right: 10px; font-size: 13px; color: white; text-shadow: 1px 1px 3px black; }
-
-  /* Tabela */
-  #multipliers {
+/* Tabela */
+#multipliers {
     position: fixed;
     top: 150px;
     right: 20px;
-  }
+}
+table {
+    border-collapse: collapse;
+    background: rgba(0,0,0,0.6);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 14px;
+}
+table th, table td {
+    padding: 6px 10px;
+    border: 1px solid gold;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+table th { background: gold; color: black; font-weight: bold; }
+.spade { color: white; }
+.diamond { color: #1E90FF; }
+.club { color: #32CD32; }
+.heart { color: red; }
+.joker { color: purple; font-weight: bold; }
 
-  table { border-collapse: collapse; background: rgba(0,0,0,0.6); border-radius: 8px; overflow: hidden; font-size: 14px;}
-  table th, table td { padding: 6px 10px; border: 1px solid gold; color: white; text-shadow: 1px 1px 2px black; }
-  table th { background: gold; color: black; font-weight: bold; }
-  .spade { color: white; } .diamond { color: #1E90FF; } .club { color: #32CD32; } .heart { color: red; } .joker { color: purple; font-weight: bold; }
-
-  /* -------------------------
-     Ajustes só para celular
-     ------------------------- */
-  @media screen and (max-width: 768px), body.mobile-layout {
+/* ------------------------- Ajustes só para celular ------------------------- */
+@media screen and (max-width: 768px), body.mobile-layout {
     body { overflow-y: auto; }
 
     #logo-text { font-size: 32px; }
     #logo-container { margin: 10px auto; padding: 6px 12px; border-width: 3px; }
 
     #slot {
-      grid-gap: 6px;
-      font-size: 32px;
-      margin: 10px auto;
-      width: 95vw;
-      max-width: 320px;
+        grid-gap: 6px;
+        font-size: 32px;
+        margin: 10px auto;
+        width: 95vw;
+        max-width: 320px;
     }
-
     .slot-cell {
-      padding: 10px;
-      font-size: 24px;
-      min-height: 50px;
-      border-width: 2px;
+        padding: 10px;
+        font-size: 24px;
+        min-height: 50px;
+        border-width: 2px;
     }
 
-    input#bet { font-size: 14px; padding: 6px; width: 120px; }
-    #play-button { font-size: 16px; padding: 10px 16px; }
+    input#bet { font-size: 14px; padding: 6px; width: 110px; margin-right: 5px; }
+    #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
 
-    /* volume menor e fixo no canto */
+    /* volume menor e fixo no canto direito */
     #volume-container {
-      top: 8px;
-      right: 8px;
-      padding: 3px 6px;
+        top: 8px;
+        right: 8px;
+        padding: 3px 6px;
     }
-    #volume-text { font-size: 12px; }
+    #volume-text { font-size: 12px; margin-right: 3px; }
     #volume-btn { width: 36px; height: 36px; font-size: 18px; }
 
     #multipliers {
-      position: relative;
-      margin: 10px auto;
-      top: auto;
-      right: auto;
-      width: 90vw;
-      max-width: 280px;
+        position: relative;
+        margin: 10px auto;
+        top: auto;
+        right: auto;
+        width: 90vw;
+        max-width: 280px;
     }
     table { font-size: 12px; width: 100%; }
-
     #message { font-size: 14px; margin: 8px; }
     #footer { position: relative; margin: 8px auto; font-size: 11px; }
-  }
+}
 </style>
 </head>
 <body>
-
 <video autoplay muted loop id="bg-video">
-  <source src="videocassino.mp4" type="video/mp4">
+    <source src="videocassino.mp4" type="video/mp4">
 </video>
 
 <div id="logo-container"><div id="logo-text">FAETEC BET</div></div>
 
 <audio id="bg-music" loop>
-  <source src="musica_fundo.mp3" type="audio/mp3">
+    <source src="musica_fundo.mp3" type="audio/mp3">
 </audio>
 <audio id="spin-sound"><source src="musica_giro.mp3" type="audio/mp3"></audio>
 <audio id="win-sound"><source src="musica_vitoria.mp3" type="audio/mp3"></audio>
@@ -247,38 +233,32 @@
 <div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
 
 <div id="volume-container">
-  <span id="volume-text">Música:</span>
-  <button id="volume-btn" onclick="toggleMusic()">🔇</button>
+    <span id="volume-text">Música:</span>
+    <button id="volume-btn" onclick="toggleMusic()">🔇</button>
 </div>
 
 <div>
-  <input type="number" id="bet" placeholder="Valor da aposta" min="1">
-  <button id="play-button" onclick="play()">🎲 Jogar</button>
+    <input type="number" id="bet" placeholder="Valor da aposta" min="1">
+    <button id="play-button" onclick="play()">🎲 Jogar</button>
 </div>
 
 <div id="slot">
-  <div class="slot-cell">❓</div>
-  <div class="slot-cell">❓</div>
-  <div class="slot-cell">❓</div>
-  <div class="slot-cell">❓</div>
-  <div class="slot-cell">❓</div>
-  <div class="slot-cell">❓</div>
-  <div class="slot-cell">❓</div>
-  <div class="slot-cell">❓</div>
-  <div class="slot-cell">❓</div>
+    <div class="slot-cell">❓</div><div class="slot-cell">❓</div><div class="slot-cell">❓</div>
+    <div class="slot-cell">❓</div><div class="slot-cell">❓</div><div class="slot-cell">❓</div>
+    <div class="slot-cell">❓</div><div class="slot-cell">❓</div><div class="slot-cell">❓</div>
 </div>
 
 <div id="message"></div>
 
 <div id="multipliers">
-  <table>
-    <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
-    <tr><td class="spade">♠️</td><td>x1.5</td></tr>
-    <tr><td class="diamond">♦️</td><td>x2</td></tr>
-    <tr><td class="club">🧧</td><td>x2.5</td></tr>
-    <tr><td class="heart">❤️</td><td>x3</td></tr>
-    <tr><td class="joker">🃏</td><td>x5</td></tr>
-  </table>
+    <table>
+        <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
+        <tr><td class="spade">♠️</td><td>x1.5</td></tr>
+        <tr><td class="diamond">♦️</td><td>x2</td></tr>
+        <tr><td class="club">🧧</td><td>x2.5</td></tr>
+        <tr><td class="heart">❤️</td><td>x3</td></tr>
+        <tr><td class="joker">🃏</td><td>x5</td></tr>
+    </table>
 </div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
@@ -289,123 +269,115 @@ let musicOn = false;
 let spinning = false;
 const weightedSymbols = ["♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","❤️","❤️","🃏"];
 const multipliers = {"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
-
 const playBtn = document.getElementById("play-button");
 const betInput = document.getElementById("bet");
 const volumeBtn = document.getElementById("volume-btn");
 const bgMusic = document.getElementById("bg-music");
 
 function toggleMusic(){
-  if(musicOn){ bgMusic.pause(); volumeBtn.innerText="🔇"; musicOn=false; }
-  else{ bgMusic.play().catch(e=>console.log(e)); volumeBtn.innerText="🔊"; musicOn=true; }
+    if(musicOn){
+        bgMusic.pause();
+        volumeBtn.innerText="🔇";
+        musicOn=false;
+    } else{
+        bgMusic.play().catch(e=>console.log(e));
+        volumeBtn.innerText="🔊";
+        musicOn=true;
+    }
 }
 
 function checkBet(){
-  const bet = parseInt(betInput.value);
-  if(spinning || !bet || bet > balance){ playBtn.disabled=true; }
-  else{ playBtn.disabled=false; }
+    const bet = parseInt(betInput.value);
+    if(spinning || !bet || bet > balance){
+        playBtn.disabled=true;
+    } else{
+        playBtn.disabled=false;
+    }
 }
 
-function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
+function getRandomSymbol(){
+    return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)];
+}
 
 function play(){
-  if(spinning) return;
-  const spinSound = document.getElementById("spin-sound");
-  const winSound = document.getElementById("win-sound");
+    if(spinning) return;
+    const spinSound = document.getElementById("spin-sound");
+    const winSound = document.getElementById("win-sound");
+    let bet = parseInt(betInput.value);
+    if(!bet || bet<=0 || bet>balance){ return; }
+    spinning=true; checkBet();
+    spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e));
+    const messageDiv = document.getElementById("message");
+    messageDiv.classList.remove("win-message","lose-message");
+    messageDiv.innerText="Girando... 🎲";
 
-  let bet = parseInt(betInput.value);
-  if(!bet || bet<=0 || bet>balance){ return; }
+    const slotCells = document.querySelectorAll(".slot-cell");
+    slotCells.forEach(cell=>cell.classList.remove("slot-win"));
 
-  spinning=true;
-  checkBet();
-  spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e));
+    let finalResult=[];
+    for(let i=0;i<9;i++){ finalResult.push(getRandomSymbol()); }
 
-  const messageDiv = document.getElementById("message");
-  messageDiv.classList.remove("win-message","lose-message");
-  messageDiv.innerText="Girando... 🎲";
-
-  const slotCells = document.querySelectorAll(".slot-cell");
-  slotCells.forEach(cell=>cell.classList.remove("slot-win"));
-
-  let finalResult=[];
-  for(let i=0;i<9;i++){ finalResult.push(getRandomSymbol()); }
-
-  let spins=0;
-  const interval = setInterval(()=>{
-    spins++;
-    slotCells.forEach(cell=>{
-      cell.classList.add("slot-spin");
-      cell.innerText=getRandomSymbol();
-    });
-
-    if(spins>15){
-      clearInterval(interval);
-      stopColumn(0, finalResult);
-      setTimeout(()=>stopColumn(1, finalResult), 400);
-      setTimeout(()=>stopColumn(2, finalResult), 700);
-      setTimeout(()=>checkWin(finalResult, bet, messageDiv, winSound), 900);
-    }
-  },150);
+    let spins=0;
+    const interval = setInterval(()=>{
+        spins++;
+        slotCells.forEach(cell=>{
+            cell.classList.add("slot-spin");
+            cell.innerText=getRandomSymbol();
+        });
+        if(spins>15){
+            clearInterval(interval);
+            stopColumn(0, finalResult);
+            setTimeout(()=>stopColumn(1, finalResult), 400);
+            setTimeout(()=>stopColumn(2, finalResult), 700);
+            setTimeout(()=>checkWin(finalResult, bet, messageDiv, winSound), 900);
+        }
+    },150);
 }
 
 function stopColumn(col, finalResult){
-  const slotCells = document.querySelectorAll(".slot-cell");
-  for(let row=0; row<3; row++){
-    let idx=row*3+col;
-    slotCells[idx].innerText=finalResult[idx];
-    slotCells[idx].classList.remove("slot-spin");
-  }
+    const slotCells = document.querySelectorAll(".slot-cell");
+    for(let row=0; row<3; row++){
+        let idx=row*3+col;
+        slotCells[idx].innerText=finalResult[idx];
+        slotCells[idx].classList.remove("slot-spin");
+    }
 }
 
 function checkWin(finalResult, bet, messageDiv, winSound){
-  const lines=[
-    [0,1,2],[3,4,5],[6,7,8], // horizontais
-    [0,4,8],[2,4,6]          // diagonais
-  ];
-  const winLines=[];
-  lines.forEach(line=>{
-    const [a,b,c]=line;
-    if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]){
-      winLines.push({symbol:finalResult[a],line});
-    }
-  });
-
-  if(winLines.length>0){
-    let totalWin=0;
-    winLines.forEach(win=>{
-      totalWin+=bet*multipliers[win.symbol];
-      const slotCells=document.querySelectorAll(".slot-cell");
-      win.line.forEach(idx=>slotCells[idx].classList.add("slot-win"));
+    const lines=[ [0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6] ];
+    const winLines=[];
+    lines.forEach(line=>{
+        const [a,b,c]=line;
+        if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]){
+            winLines.push({symbol:finalResult[a],line});
+        }
     });
-    balance+=totalWin;
-    messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
-    messageDiv.classList.add("win-message");
-    winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
-  } else {
-    balance-=bet;
-    messageDiv.innerText="😢 Foi quase, tente novamente!";
-    messageDiv.classList.add("lose-message");
-  }
-
-  document.getElementById("balance").innerText=balance;
-  spinning=false;
-  checkBet();
+    if(winLines.length>0){
+        let totalWin=0;
+        winLines.forEach(win=>{
+            totalWin+=bet*multipliers[win.symbol];
+            const slotCells=document.querySelectorAll(".slot-cell");
+            win.line.forEach(idx=>slotCells[idx].classList.add("slot-win"));
+        });
+        balance+=totalWin;
+        messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
+        messageDiv.classList.add("win-message");
+        winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
+    } else {
+        balance-=bet;
+        messageDiv.innerText="😢 Foi quase, tente novamente!";
+        messageDiv.classList.add("lose-message");
+    }
+    document.getElementById("balance").innerText=balance;
+    spinning=false; checkBet();
 }
 
 betInput.addEventListener("input", checkBet);
 checkBet();
 
-/* ---------------------------
-   DETECÇÃO DE CELULAR
---------------------------- */
-function isMobile(){
-  return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-
-if(isMobile()){
-  document.body.classList.add("mobile-layout");
-}
+/* --------------------------- DETECÇÃO DE CELULAR --------------------------- */
+function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
+if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
-
 </body>
 </html>
