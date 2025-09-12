@@ -278,10 +278,8 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
 <div id="message"></div>
 
-<!-- Ícone que abre a modal (mesma posição do seu código original) -->
 <div id="multiplier-icon" onclick="showMultiplierModal()">📊</div>
 
-<!-- Modal com a tabela (texto ajustado: 'itens' -> 'slots' e aviso adicionado) -->
 <div id="multiplier-modal">
     <div class="close-btn" onclick="closeMultiplierModal()">✖</div>
     <h3 style="color:gold; text-align:center;">Tabela de Multiplicadores</h3>
@@ -296,7 +294,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
         <tr><td class="heart">❤️</td><td>x3</td></tr>
         <tr><td class="joker">🃏</td><td>x5</td></tr>
     </table>
-    <p style="color:white; margin-top:10px;">Só ganha quando acerta 3 <strong>slots</strong> iguais na vertical ou diagonal.</p>
+    <p style="color:white; margin-top:10px;">Só ganha quando acerta pelo menos 3 <strong>slots</strong> iguais na vertical ou diagonal.</p>
 </div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
@@ -427,3 +425,4 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
+
