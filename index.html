@@ -24,6 +24,7 @@ body {
     overflow: hidden;
     touch-action: none;
 }
+
 /* Logo */
 #logo-container {
     display: flex;
@@ -144,31 +145,53 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     text-shadow: 1px 1px 3px black;
 }
 
-/* Tabela */
-#multipliers {
+/* ------------------------- Modal Multiplicadores ------------------------- */
+#multiplier-icon {
     position: fixed;
-    top: 150px;
+    top: 60px;
     right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 50;
 }
-table {
+#multiplier-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.9);
+    padding: 20px;
+    border: 3px solid gold;
+    border-radius: 15px;
+    z-index: 100;
+    max-width: 90vw;
+    width: 320px;
+}
+#multiplier-modal table {
     border-collapse: collapse;
+    width: 100%;
     background: rgba(0,0,0,0.6);
     border-radius: 8px;
     overflow: hidden;
     font-size: 14px;
 }
-table th, table td {
+#multiplier-modal th, #multiplier-modal td {
     padding: 6px 10px;
     border: 1px solid gold;
     color: white;
     text-shadow: 1px 1px 2px black;
 }
-table th { background: gold; color: black; font-weight: bold; }
-.spade { color: white; }
-.diamond { color: #1E90FF; }
-.club { color: #32CD32; }
-.heart { color: red; }
-.joker { color: purple; font-weight: bold; }
+#multiplier-modal th { background: gold; color: black; font-weight: bold; }
+#multiplier-modal .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
 
 /* ------------------------- Ajustes só para celular ------------------------- */
 @media screen and (max-width: 768px), body.mobile-layout {
@@ -194,7 +217,6 @@ table th { background: gold; color: black; font-weight: bold; }
     input#bet { font-size: 14px; padding: 6px; width: 110px; margin-right: 5px; }
     #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
 
-    /* volume menor e fixo no canto direito */
     #volume-container {
         top: 8px;
         right: 8px;
@@ -203,15 +225,9 @@ table th { background: gold; color: black; font-weight: bold; }
     #volume-text { font-size: 12px; margin-right: 3px; }
     #volume-btn { width: 36px; height: 36px; font-size: 18px; }
 
-    #multipliers {
-        position: relative;
-        margin: 10px auto;
-        top: auto;
-        right: auto;
-        width: 90vw;
-        max-width: 280px;
-    }
-    table { font-size: 12px; width: 100%; }
+    #multiplier-icon { top: 50px; right: 15px; font-size: 28px; }
+    #multiplier-modal { width: 90vw; max-width: 280px; }
+    #multiplier-modal table { font-size: 12px; }
     #message { font-size: 14px; margin: 8px; }
     #footer { position: relative; margin: 8px auto; font-size: 11px; }
 }
@@ -250,7 +266,13 @@ table th { background: gold; color: black; font-weight: bold; }
 
 <div id="message"></div>
 
-<div id="multipliers">
+<!-- Ícone que abre a modal -->
+<div id="multiplier-icon" onclick="showMultiplierModal()">📊</div>
+
+<!-- Modal com a tabela -->
+<div id="multiplier-modal">
+    <div class="close-btn" onclick="closeMultiplierModal()">✖</div>
+    <h3 style="color:white;">Tabela de Multiplicadores</h3>
     <table>
         <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
         <tr><td class="spade">♠️</td><td>x1.5</td></tr>
@@ -259,6 +281,7 @@ table th { background: gold; color: black; font-weight: bold; }
         <tr><td class="heart">❤️</td><td>x3</td></tr>
         <tr><td class="joker">🃏</td><td>x5</td></tr>
     </table>
+    <p style="color:white; margin-top:10px;">Só ganha quando acerta 3 itens iguais na vertical ou diagonal.</p>
 </div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
@@ -374,6 +397,14 @@ function checkWin(finalResult, bet, messageDiv, winSound){
 
 betInput.addEventListener("input", checkBet);
 checkBet();
+
+/* --------------------------- Modal Multiplicadores --------------------------- */
+function showMultiplierModal(){
+    document.getElementById("multiplier-modal").style.display="block";
+}
+function closeMultiplierModal(){
+    document.getElementById("multiplier-modal").style.display="none";
+}
 
 /* --------------------------- DETECÇÃO DE CELULAR --------------------------- */
 function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
