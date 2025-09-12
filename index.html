@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- importante -->
 <title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
 
 <!-- Fonte Cassino -->
@@ -27,7 +26,6 @@
     margin: 0;
     overflow: hidden;
     touch-action: none;
-    -webkit-tap-highlight-color: transparent;
   }
 
   /* Logo */
@@ -43,7 +41,6 @@
     max-width: 90%;
     animation: borderGlow 1s infinite alternate;
     background: rgba(0,0,0,0.4);
-    z-index: 2;
   }
 
   #logo-text {
@@ -77,7 +74,6 @@
     font-size: 60px;
     margin: 40px auto;
     width: fit-content;
-    z-index: 2;
   }
 
   .slot-cell {
@@ -87,17 +83,12 @@
     background: rgba(0,0,0,0.4);
     border-radius: 16px;
     transition: transform 0.2s, background 0.3s;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-width: 70px;
-    min-height: 70px;
   }
 
   .slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
-  .slot-win { background: gold !important; color: black; font-weight: bold; box-shadow: 0 0 15px gold, 0 0 30px orange; }
+  .slot-win { background: rgba(255,215,0,0.6) !important; }
 
-  .balance { font-size: 16px; margin: 10px; z-index:2; }
+  .balance { font-size: 16px; margin: 10px; }
 
   input, button {
     padding: 8px;
@@ -118,7 +109,7 @@
   button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
   button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
-  /* Botão de volume (desktop) */
+  /* Botão de volume */
   #volume-container {
     position: fixed;
     top: 10px;
@@ -129,7 +120,6 @@
     padding: 5px 10px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    z-index: 3;
   }
 
   #volume-text {
@@ -156,23 +146,11 @@
 
   #volume-btn:hover { background: orange; transform: scale(1.05); }
 
-  /* wrapper para controles (usado em mobile via CSS) */
-  #controls-inline {
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-  }
-
   #message {
     margin-top: 15px;
     font-size: 20px;
     text-shadow: 1px 1px 4px black;
     transition: all 0.3s ease;
-    z-index: 2;
   }
 
   /* Mensagens sem pulsação */
@@ -190,14 +168,13 @@
     text-shadow: 2px 2px 6px black, 0 0 10px darkred;
   }
 
-  #footer { position: fixed; bottom: 10px; right: 10px; font-size: 14px; color: white; text-shadow: 1px 1px 3px black; z-index:2; }
+  #footer { position: fixed; bottom: 10px; right: 10px; font-size: 14px; color: white; text-shadow: 1px 1px 3px black; }
 
-  /* Tabela movida para direita (desktop) */
+  /* Tabela fixada à direita */
   #multipliers {
     position: fixed;
     top: 150px;
     right: 20px;
-    z-index: 2;
   }
 
   table { border-collapse: collapse; background: rgba(0,0,0,0.6); border-radius: 8px; overflow: hidden; font-size: 14px;}
@@ -209,115 +186,68 @@
      AJUSTES PARA CELULARES
      ------------------------- */
   @media screen and (max-width: 768px) {
-    /* permitir rolagem vertical e reduzir margens */
     body { overflow-y: auto; -webkit-overflow-scrolling: touch; }
 
-    /* logo menor e compact */
-    #logo-container { margin: 12px auto; padding: 10px 18px; border-width: 4px; }
-    #logo-text { font-size: 36px; }
+    #logo-container { margin: 8px auto; padding: 8px 14px; border-width: 3px; }
+    #logo-text { font-size: 28px; }
 
-    /* slot mais compacto e largura controlada para caber na tela */
     #slot {
-      grid-gap: 8px;
-      font-size: 44px;
-      margin: 12px auto;
-      width: min(360px, 92vw);
-      padding: 6px;
+      grid-gap: 6px;
+      font-size: 32px;
+      margin: 8px auto;
+      width: min(300px, 92vw);
+      padding: 4px;
     }
 
     .slot-cell {
-      padding: 12px;
-      font-size: 34px;
-      min-width: 0;
-      min-height: 64px;
-      border-width: 3px;
-      border-radius: 12px;
-    }
-
-    /* controls em linha/empilhados para não sobrepor */
-    #controls-inline {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      align-items: center;
-      margin: 6px auto 12px;
-      width: 92vw;
-      max-width: 360px;
-      flex-wrap: wrap;
-    }
-
-    /* Volume: remover fixed e colocar inline (evita sobreposição) */
-    #volume-container {
-      position: relative;
-      top: auto;
-      right: auto;
-      bottom: auto;
-      margin: 0;
-      background: rgba(255,215,0,0.95);
-      padding: 6px 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      padding: 8px;
+      font-size: 26px;
+      min-height: 50px;
+      border-width: 2px;
       border-radius: 10px;
     }
 
-    #volume-text { font-size: 14px; margin-right: 8px; }
-    #volume-btn { width: 62px; height: 62px; font-size: 26px; border-radius: 12px; }
-
-    /* aposta e botão jogar maiores e responsivos (ocupam largura semelhante) */
     input#bet {
-      font-size: 18px;
-      padding: 10px;
-      width: calc(50% - 12px);
-      min-width: 120px;
-      box-sizing: border-box;
+      font-size: 14px;
+      padding: 8px;
+      width: calc(50% - 10px);
+      min-width: 100px;
     }
 
     #play-button {
-      font-size: 18px;
-      padding: 12px 18px;
-      width: calc(50% - 12px);
-      min-width: 120px;
-      box-sizing: border-box;
-      margin-left: 0;
+      font-size: 16px;
+      padding: 10px 14px;
+      width: calc(50% - 10px);
+      min-width: 100px;
     }
 
-    /* tabela de multiplicadores: mover para baixo e estreitar (evita sobrepor) */
+    #volume-container {
+      position: fixed;
+      top: 8px;
+      right: 8px;
+      margin: 0;
+      background: rgba(255,215,0,0.95);
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    #volume-text { font-size: 12px; margin-right: 6px; }
+    #volume-btn { width: 46px; height: 46px; font-size: 22px; border-radius: 8px; }
+
     #multipliers {
       position: relative;
       top: auto;
       right: auto;
-      margin: 10px auto;
-      width: 92vw;
-      max-width: 360px;
+      margin: 8px auto;
+      width: 90vw;
+      max-width: 300px;
     }
 
-    table { font-size: 13px; width: 100%; }
+    table { font-size: 11px; width: 100%; }
 
-    /* reduzir tamanho de mensagens e footer */
-    #message { font-size: 16px; margin: 8px; }
-    #footer { position: relative; margin-top: 10px; right: auto; bottom: auto; font-size: 12px; }
-
-    /* garantir que elementos de controle fiquem acima do fundo */
-    #controls-inline, #multipliers, #logo-container, #slot { z-index: 3; }
-
-    /* remover espaços desnecessários laterais */
-    html, body { padding-left: 4px; padding-right: 4px; }
+    #message { font-size: 14px; margin: 6px; }
+    #footer { position: relative; margin-top: 8px; font-size: 11px; }
   }
-
-  /* Para telas bem pequenas (ex: telefones compactos) */
-  @media screen and (max-width: 420px) {
-    #logo-text { font-size: 30px; }
-    #slot { font-size: 36px; grid-gap: 6px; width: min(320px, 96vw); }
-    .slot-cell { padding: 10px; font-size: 30px; min-height: 56px; }
-    #volume-btn { width: 58px; height: 58px; font-size: 24px; }
-    input#bet, #play-button { width: 100%; max-width: none; display: block; }
-    #controls-inline { gap: 6px; width: 96vw; }
-    table { font-size: 12px; }
-  }
-
-  /* quando for detectado por JS (classe .is-mobile) podemos reforçar comportamento
-     — útil para dispositivos com largura grande mas user agent mobile (ex: small tablets) */
-  body.is-mobile #volume-container { position: relative !important; }
-  body.is-mobile #multipliers { position: relative !important; width: 92vw !important; }
 </style>
 </head>
 <body>
@@ -344,20 +274,17 @@
 
 <div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
 
-<!-- volume fica aqui no DOM, mas em mobile deixamos ele relativo (via CSS) -->
 <div id="volume-container">
   <span id="volume-text">Música:</span>
   <button id="volume-btn" onclick="toggleMusic()">🔇</button>
 </div>
 
-<!-- Wrapper inline para inputs/botão (facilita o layout mobile) -->
-<div id="controls-inline">
+<div>
   <input type="number" id="bet" placeholder="Valor da aposta" min="1">
   <button id="play-button" onclick="play()">🎲 Jogar</button>
 </div>
 
-<!-- Agora 9 slots -->
-<div id="slot" aria-hidden="false">
+<div id="slot">
   <div class="slot-cell">❓</div>
   <div class="slot-cell">❓</div>
   <div class="slot-cell">❓</div>
@@ -371,7 +298,6 @@
 
 <div id="message"></div>
 
-<!-- Tabela movida para direita em desktop, abaixo no mobile -->
 <div id="multipliers">
   <table>
   <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
@@ -386,13 +312,6 @@
 <div id="footer">📚 Projeto escolar - FAETEC</div>
 
 <script>
-/* pequena detecção por UserAgent para robustez */
-(function(){
-  const isMobileUA = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  if(isMobileUA) document.body.classList.add('is-mobile');
-})();
-
-/* --- código do jogo (inalterado na lógica) --- */
 let balance = 1000;
 let musicOn = false;
 let spinning = false;
@@ -431,22 +350,22 @@ function play(){
 
   const messageDiv = document.getElementById("message");
   messageDiv.classList.remove("win-message","lose-message");
-
-  // limpa destaques antigos
-  document.querySelectorAll(".slot-cell").forEach(cell=>{
-    cell.classList.remove("slot-win");
-  });
-
   messageDiv.innerText="Girando... 🎲";
 
   const slotCells = document.querySelectorAll(".slot-cell");
+  slotCells.forEach(cell=>cell.classList.remove("slot-win"));
+
   let finalResult=[];
   for(let i=0;i<9;i++){ finalResult.push(getRandomSymbol()); }
 
   let spins=0;
   const interval = setInterval(()=>{
     spins++;
-    slotCells.forEach((cell,idx)=>{ cell.classList.add("slot-spin"); cell.innerText=getRandomSymbol(); });
+    slotCells.forEach(cell=>{
+      cell.classList.add("slot-spin");
+      cell.innerText=getRandomSymbol();
+    });
+
     if(spins>15){
       clearInterval(interval);
       stopColumn(0, finalResult);
@@ -467,7 +386,10 @@ function stopColumn(col, finalResult){
 }
 
 function checkWin(finalResult, bet, messageDiv, winSound){
-  const lines=[ [0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6] ];
+  const lines=[
+    [0,1,2],[3,4,5],[6,7,8], // horizontais
+    [0,4,8],[2,4,6]          // diagonais
+  ];
   const winLines=[];
   lines.forEach(line=>{
     const [a,b,c]=line;
@@ -480,7 +402,8 @@ function checkWin(finalResult, bet, messageDiv, winSound){
     let totalWin=0;
     winLines.forEach(win=>{
       totalWin+=bet*multipliers[win.symbol];
-      win.line.forEach(idx=> document.querySelectorAll(".slot-cell")[idx].classList.add("slot-win"));
+      const slotCells=document.querySelectorAll(".slot-cell");
+      win.line.forEach(idx=>slotCells[idx].classList.add("slot-win"));
     });
     balance+=totalWin;
     messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
