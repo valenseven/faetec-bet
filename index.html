@@ -28,7 +28,7 @@
     touch-action: none;
   }
 
-  /* Logo em texto dourado reluzente */
+  /* Logo */
   #logo-container {
     display: flex;
     justify-content: center;
@@ -64,30 +64,36 @@
     100% { text-shadow: 0 0 6px gold, 0 0 12px orange; transform: scale(1); }
   }
 
-  /* Slot machine maior */
+  /* Slot machine em grade 3x3 */
   #slot {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
     justify-content: center;
     align-items: center;
-    font-size: 80px; /* aumentado */
-    margin: 40px 0;  /* mais espaço */
-    gap: 15px;
+    font-size: 60px;
+    margin: 40px auto;
+    width: fit-content;
   }
 
   .slot-cell {
-    padding: 25px 45px; /* maior área */
-    border-left: 4px solid gold;
-    border-right: 4px solid gold;
+    padding: 25px;
+    border: 4px solid gold;
     text-shadow: 2px 2px 6px black;
     background: rgba(0,0,0,0.4);
     border-radius: 16px;
-    margin: 0 4px;
     transition: transform 0.2s, background 0.3s;
   }
 
-  .slot-cell:first-child { border-left: none; }
-  .slot-cell:last-child { border-right: none; }
   .slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
+
+  /* Destaque vencedor */
+  .highlight {
+    background: gold !important;
+    color: black !important;
+    box-shadow: 0 0 15px gold, 0 0 30px orange;
+    font-weight: bold;
+  }
 
   .balance { font-size: 16px; margin: 10px; }
 
@@ -110,7 +116,7 @@
   button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
   button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
-  /* Botão de volume igual ao de jogar */
+  /* Botão de volume */
   #volume-container {
     position: fixed;
     top: 10px;
@@ -151,14 +157,15 @@
     margin-top: 15px;
     font-size: 20px;
     text-shadow: 1px 1px 4px black;
+    transition: all 0.3s ease;
   }
 
+  /* Mensagens sem pulsação */
   .win-message {
     font-size: 50px;
     color: gold;
     font-weight: bold;
     text-shadow: 2px 2px 10px black, 0 0 15px gold, 0 0 25px orange;
-    animation: flash 0.8s infinite alternate;
   }
 
   .lose-message {
@@ -166,24 +173,18 @@
     color: red;
     font-weight: bold;
     text-shadow: 2px 2px 6px black, 0 0 10px darkred;
-    animation: flashLose 0.8s infinite alternate;
-  }
-
-  @keyframes flash {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-  }
-
-  @keyframes flashLose {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
   }
 
   #footer { position: fixed; bottom: 10px; right: 10px; font-size: 14px; color: white; text-shadow: 1px 1px 3px black; }
 
-  table { margin: 20px auto; border-collapse: collapse; background: rgba(0,0,0,0.6); border-radius: 8px; overflow: hidden; font-size: 14px;}
+  /* Tabela movida para direita */
+  #multipliers {
+    position: fixed;
+    top: 150px;
+    right: 20px;
+  }
+
+  table { border-collapse: collapse; background: rgba(0,0,0,0.6); border-radius: 8px; overflow: hidden; font-size: 14px;}
   table th, table td { padding: 8px 15px; border: 1px solid gold; color: white; text-shadow: 1px 1px 2px black; }
   table th { background: gold; color: black; font-weight: bold; }
   .spade { color: white; } .diamond { color: #1E90FF; } .club { color: #32CD32; } .heart { color: red; } .joker { color: purple; font-weight: bold; }
@@ -195,7 +196,6 @@
   <source src="videocassino.mp4" type="video/mp4">
 </video>
 
-<!-- Logo substituída por texto animado -->
 <div id="logo-container">
   <div id="logo-text">FAETEC BET</div>
 </div>
@@ -214,7 +214,6 @@
 
 <div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
 
-<!-- Botão de música com texto -->
 <div id="volume-container">
   <span id="volume-text">Música:</span>
   <button id="volume-btn" onclick="toggleMusic()">🔇</button>
@@ -225,7 +224,14 @@
   <button id="play-button" onclick="play()">🎲 Jogar</button>
 </div>
 
+<!-- Agora 9 slots -->
 <div id="slot">
+  <div class="slot-cell">❓</div>
+  <div class="slot-cell">❓</div>
+  <div class="slot-cell">❓</div>
+  <div class="slot-cell">❓</div>
+  <div class="slot-cell">❓</div>
+  <div class="slot-cell">❓</div>
   <div class="slot-cell">❓</div>
   <div class="slot-cell">❓</div>
   <div class="slot-cell">❓</div>
@@ -233,14 +239,17 @@
 
 <div id="message"></div>
 
-<table>
-<tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
-<tr><td class="spade">♠️ (mais fácil)</td><td>x1.5</td></tr>
-<tr><td class="diamond">♦️ (fácil)</td><td>x2</td></tr>
-<tr><td class="club">🧧 (médio)</td><td>x2.5</td></tr>
-<tr><td class="heart">❤️ (difícil)</td><td>x3</td></tr>
-<tr><td class="joker">🃏 (mais difícil)</td><td>x5</td></tr>
-</table>
+<!-- Tabela movida para direita -->
+<div id="multipliers">
+  <table>
+  <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
+  <tr><td class="spade">♠️ (mais fácil)</td><td>x1.5</td></tr>
+  <tr><td class="diamond">♦️ (fácil)</td><td>x2</td></tr>
+  <tr><td class="club">🧧 (médio)</td><td>x2.5</td></tr>
+  <tr><td class="heart">❤️ (difícil)</td><td>x3</td></tr>
+  <tr><td class="joker">🃏 (mais difícil)</td><td>x5</td></tr>
+  </table>
+</div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
 
@@ -248,7 +257,6 @@
 let balance = 1000;
 let musicOn = false;
 let spinning = false;
-const winChanceLevel = 3;
 const weightedSymbols = ["♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","❤️","❤️","🃏"];
 const multipliers = {"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
 
@@ -262,7 +270,6 @@ function toggleMusic(){
   else{ bgMusic.play().catch(e=>console.log(e)); volumeBtn.innerText="🔊"; musicOn=true; }
 }
 
-// Checar se o botão jogar deve estar habilitado
 function checkBet(){
   const bet = parseInt(betInput.value);
   if(spinning || !bet || bet > balance){ playBtn.disabled=true; }
@@ -285,50 +292,81 @@ function play(){
 
   const messageDiv = document.getElementById("message");
   messageDiv.classList.remove("win-message","lose-message");
+
+  // limpa destaques antigos
+  document.querySelectorAll(".slot-cell").forEach(cell=>{
+    cell.classList.remove("highlight");
+  });
+
   messageDiv.innerText="Girando... 🎲";
 
   const slotCells = document.querySelectorAll(".slot-cell");
-  const spinsPerSlot = [10,15,20];
-  let spinCounts=[0,0,0];
   let finalResult=[];
+  for(let i=0;i<9;i++){ finalResult.push(getRandomSymbol()); }
 
-  if(Math.random()*10<winChanceLevel){
-    const chosen=getRandomSymbol();
-    finalResult=[chosen,chosen,chosen];
-  } else{
-    finalResult=[getRandomSymbol(),getRandomSymbol(),getRandomSymbol()];
-  }
-
+  let spins=0;
   const interval = setInterval(()=>{
-    let allStopped=true;
-    slotCells.forEach((cell,index)=>{
+    spins++;
+    slotCells.forEach((cell,idx)=>{
       cell.classList.add("slot-spin");
-      if(spinCounts[index]<spinsPerSlot[index]){
-        cell.innerText=getRandomSymbol(); spinCounts[index]++; allStopped=false;
-      } else{ cell.innerText=finalResult[index]; }
+      cell.innerText=getRandomSymbol();
     });
 
-    if(allStopped){
+    if(spins>15){
       clearInterval(interval);
-      slotCells.forEach(cell=>cell.classList.remove("slot-spin"));
-
-      if(finalResult[0]===finalResult[1] && finalResult[1]===finalResult[2]){
-        const symbol=finalResult[0];
-        const ganho=bet*multipliers[symbol]; balance+=ganho;
-        messageDiv.innerText=`🎉💥 PARABÉNS! VOCÊ GANHOU R$ ${ganho.toFixed(2)} 💥🎉`;
-        messageDiv.classList.add("win-message");
-        winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
-      } else{
-        balance-=bet;
-        messageDiv.innerText="😢 Foi quase, tente novamente!";
-        messageDiv.classList.add("lose-message");
-      }
-
-      document.getElementById("balance").innerText=balance;
-      spinning=false;
-      checkBet();
+      // para colunas em tempos diferentes
+      stopColumn(0, finalResult);
+      setTimeout(()=>stopColumn(1, finalResult), 400);
+      setTimeout(()=>stopColumn(2, finalResult), 700);
+      setTimeout(()=>checkWin(finalResult, bet, messageDiv, winSound), 900);
     }
   },150);
+}
+
+function stopColumn(col, finalResult){
+  const slotCells = document.querySelectorAll(".slot-cell");
+  for(let row=0; row<3; row++){
+    let idx=row*3+col;
+    slotCells[idx].innerText=finalResult[idx];
+    slotCells[idx].classList.remove("slot-spin");
+  }
+}
+
+function checkWin(finalResult, bet, messageDiv, winSound){
+  const lines=[
+    [0,1,2],[3,4,5],[6,7,8], // horizontais
+    [0,4,8],[2,4,6]          // diagonais
+  ];
+  const winLines=[];
+  lines.forEach(line=>{
+    const [a,b,c]=line;
+    if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]){
+      winLines.push({symbol:finalResult[a],line});
+    }
+  });
+
+  if(winLines.length>0){
+    let totalWin=0;
+    winLines.forEach(win=>{
+      totalWin+=bet*multipliers[win.symbol];
+      // destaca os slots vencedores
+      win.line.forEach(idx=>{
+        document.querySelectorAll(".slot-cell")[idx].classList.add("highlight");
+      });
+    });
+    balance+=totalWin;
+    messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
+    messageDiv.classList.add("win-message");
+    winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
+  } else {
+    balance-=bet;
+    messageDiv.innerText="😢 Foi quase, tente novamente!";
+    messageDiv.classList.add("lose-message");
+  }
+
+  document.getElementById("balance").innerText=balance;
+  spinning=false;
+  checkBet();
 }
 
 betInput.addEventListener("input", checkBet);
@@ -337,3 +375,5 @@ checkBet();
 
 </body>
 </html>
+
+
