@@ -101,15 +101,25 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
 /* Botão de volume */
 #volume-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    background: gold;
+    padding: 4px 8px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
 }
-#volume-text { font-weight: bold; color: black; font-size: 14px; }
+#volume-text { font-weight: bold; margin-right: 5px; color: black; font-size: 14px; }
 #volume-btn {
-    font-size: 16px;
-    padding: 6px 10px;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
     color: black;
     background: gold;
@@ -140,7 +150,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     position: fixed;
     top: 60px;
     right: 20px;
-    font-size: 36px;
+    font-size: 36px; /* bom para PC */
     cursor: pointer;
     z-index: 50;
     transition: transform 0.2s;
@@ -187,7 +197,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 }
 
 /* ------------------------- Ajustes só para celular ------------------------- */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px), body.mobile-layout {
     body { overflow-y: auto; }
 
     #logo-text { font-size: 32px; }
@@ -207,50 +217,23 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
         border-width: 2px;
     }
 
+    input#bet { font-size: 14px; padding: 6px; width: 110px; margin-right: 5px; }
+    #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
+
+    #volume-container {
+        top: 8px;
+        right: 8px;
+        padding: 3px 6px;
+    }
+    #volume-text { font-size: 12px; margin-right: 3px; }
+    #volume-btn { width: 36px; height: 36px; font-size: 18px; }
+
+    #multiplier-icon { top: 50px; right: 15px; font-size: 28px; }
+    #multiplier-modal { width: 90vw; max-width: 280px; }
+    #multiplier-modal table { font-size: 12px; }
+
     #message { font-size: 14px; margin: 8px; }
     #footer { position: relative; margin: 8px auto; font-size: 11px; }
-
-    /* --------- NOVA ÁREA DE CONTROLES NO RODAPÉ --------- */
-    #controls {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: #8b0000;
-        border-top: 4px solid gold;
-        padding: 8px;
-        z-index: 999;
-    }
-    #left-controls,
-    #right-controls {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-    #play-button {
-        flex: 0 0 90px;
-        height: 90px;
-        border-radius: 50%;
-        background: #00cc66;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        border: 3px solid #fff;
-    }
-    #bet,
-    #volume-btn {
-        font-size: 14px;
-        padding: 8px 12px;
-        border-radius: 8px;
-        background: gold;
-        color: #8b0000;
-        border: none;
-        font-weight: bold;
-    }
-    #bet { width: 70px; text-align: center; }
 }
 </style>
 </head>
@@ -268,6 +251,16 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 <audio id="win-sound"><source src="musica_vitoria.mp3" type="audio/mp3"></audio>
 
 <div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
+
+<div id="volume-container">
+    <span id="volume-text">Música:</span>
+    <button id="volume-btn" onclick="toggleMusic()">🔇</button>
+</div>
+
+<div>
+    <input type="number" id="bet" placeholder="Valor da aposta" min="1">
+    <button id="play-button" onclick="play()">🎲 Jogar</button>
+</div>
 
 <div id="slot">
     <div class="slot-cell">❓</div><div class="slot-cell">❓</div><div class="slot-cell">❓</div>
@@ -293,22 +286,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
         <tr><td class="joker">🃏</td><td>x5</td></tr>
     </table>
     <p style="color:white; margin-top:10px;">Só ganha quando acerta 3 itens iguais na vertical ou diagonal.</p>
-</div>
-
-<!-- --------- NOVA ÁREA DE CONTROLES --------- -->
-<div id="controls">
-  <div id="left-controls">
-    <div id="volume-container">
-      <button id="volume-btn" onclick="toggleMusic()">🔇</button>
-    </div>
-    <input type="number" id="bet" placeholder="Aposta" min="1">
-  </div>
-
-  <button id="play-button" onclick="play()">▶</button>
-
-  <div id="right-controls">
-    <!-- espaço para mais controles se quiser -->
-  </div>
 </div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
