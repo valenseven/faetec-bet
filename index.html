@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
+
+<!-- Fonte Cassino -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
 <style>
   /* Vídeo de fundo */
   #bg-video {
@@ -24,54 +28,65 @@
     touch-action: none;
   }
 
-  /* Logo em vídeo responsiva com borda dourada piscante */
+  /* Logo em texto dourado reluzente */
   #logo-container {
     display: flex;
     justify-content: center;
-    margin: 20px auto;
+    align-items: center;
+    margin: 30px auto;
     border: 5px solid gold;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 600px;
-    overflow: hidden;
+    border-radius: 20px;
+    padding: 15px 30px;
+    width: fit-content;
+    max-width: 90%;
     animation: borderGlow 1s infinite alternate;
+    background: rgba(0,0,0,0.4);
+  }
+
+  #logo-text {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 64px;
+    font-weight: bold;
+    color: gold;
+    text-shadow: 0 0 6px gold, 0 0 12px orange;
+    animation: shine 4s infinite linear;
   }
 
   @keyframes borderGlow {
-    0% { border-color: gold; box-shadow: 0 0 15px gold; }
-    50% { border-color: orange; box-shadow: 0 0 25px orange; }
-    100% { border-color: gold; box-shadow: 0 0 15px gold; }
+    0% { border-color: gold; box-shadow: 0 0 10px gold; }
+    50% { border-color: orange; box-shadow: 0 0 18px orange; }
+    100% { border-color: gold; box-shadow: 0 0 10px gold; }
   }
 
-  #logo-video {
-    width: 100%;
-    height: auto;
-    display: block;
+  @keyframes shine {
+    0% { text-shadow: 0 0 6px gold, 0 0 12px orange; }
+    50% { text-shadow: 0 0 12px gold, 0 0 20px orange; transform: scale(1.03); }
+    100% { text-shadow: 0 0 6px gold, 0 0 12px orange; transform: scale(1); }
   }
 
+  /* Slot machine maior */
   #slot {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 60px;
-    margin: 20px 0;
-    gap: 10px;
+    font-size: 80px; /* aumentado */
+    margin: 40px 0;  /* mais espaço */
+    gap: 15px;
   }
 
   .slot-cell {
-    padding: 15px 30px;
-    border-left: 3px solid gold;
-    border-right: 3px solid gold;
+    padding: 25px 45px; /* maior área */
+    border-left: 4px solid gold;
+    border-right: 4px solid gold;
     text-shadow: 2px 2px 6px black;
     background: rgba(0,0,0,0.4);
-    border-radius: 12px;
-    margin: 0 2px;
+    border-radius: 16px;
+    margin: 0 4px;
     transition: transform 0.2s, background 0.3s;
   }
 
   .slot-cell:first-child { border-left: none; }
   .slot-cell:last-child { border-right: none; }
-
   .slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
 
   .balance { font-size: 16px; margin: 10px; }
@@ -169,7 +184,7 @@
 
   #footer { position: fixed; bottom: 10px; right: 10px; font-size: 14px; color: white; text-shadow: 1px 1px 3px black; }
 
-  table { margin: 15px auto; border-collapse: collapse; background: rgba(0,0,0,0.6); border-radius: 8px; overflow: hidden; font-size: 14px;}
+  table { margin: 20px auto; border-collapse: collapse; background: rgba(0,0,0,0.6); border-radius: 8px; overflow: hidden; font-size: 14px;}
   table th, table td { padding: 8px 15px; border: 1px solid gold; color: white; text-shadow: 1px 1px 2px black; }
   table th { background: gold; color: black; font-weight: bold; }
   .spade { color: white; } .diamond { color: #1E90FF; } .club { color: #32CD32; } .heart { color: red; } .joker { color: purple; font-weight: bold; }
@@ -181,12 +196,9 @@
   <source src="videocassino.mp4" type="video/mp4">
 </video>
 
-<!-- Container da logo com borda dourada piscante -->
+<!-- Logo substituída por texto animado -->
 <div id="logo-container">
-  <video id="logo-video" autoplay loop muted>
-    <source src="video_logo.mp4" type="video/mp4">
-    Seu navegador não suporta vídeo em HTML5.
-  </video>
+  <div id="logo-text">FAETEC BET</div>
 </div>
 
 <audio id="bg-music" loop>
