@@ -150,7 +150,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     position: fixed;
     top: 60px;
     right: 20px;
-    font-size: 36px; /* aumentado para melhor visibilidade no PC */
+    font-size: 36px;
     cursor: pointer;
     z-index: 50;
     transition: transform 0.2s;
@@ -197,7 +197,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 }
 
 /* ------------------------- Ajustes só para celular ------------------------- */
-@media screen and (max-width: 768px), body.mobile-layout {
+@media screen and (max-width: 768px) {
     body { overflow-y: auto; }
 
     #logo-text { font-size: 32px; }
@@ -408,10 +408,6 @@ function showMultiplierModal(){
 function closeMultiplierModal(){
     document.getElementById("multiplier-modal").style.display="none";
 }
-
-/* --------------------------- DETECÇÃO DE CELULAR --------------------------- */
-function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
-if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
