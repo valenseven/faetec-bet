@@ -86,14 +86,7 @@
   }
 
   .slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
-
-  /* Destaque vencedor */
-  .highlight {
-    background: gold !important;
-    color: black !important;
-    box-shadow: 0 0 15px gold, 0 0 30px orange;
-    font-weight: bold;
-  }
+  .slot-win { background: gold !important; color: black; font-weight: bold; }
 
   .balance { font-size: 16px; margin: 10px; }
 
@@ -188,6 +181,77 @@
   table th, table td { padding: 8px 15px; border: 1px solid gold; color: white; text-shadow: 1px 1px 2px black; }
   table th { background: gold; color: black; font-weight: bold; }
   .spade { color: white; } .diamond { color: #1E90FF; } .club { color: #32CD32; } .heart { color: red; } .joker { color: purple; font-weight: bold; }
+
+  /* 📱 Ajustes apenas para celulares */
+  @media screen and (max-width: 768px) {
+    body {
+      font-size: 14px;
+      overflow-y: auto;
+    }
+
+    #logo-text {
+      font-size: 40px;
+    }
+
+    #slot {
+      grid-gap: 8px;
+      font-size: 40px;
+      margin: 20px auto;
+    }
+
+    .slot-cell {
+      padding: 15px;
+      font-size: 36px;
+    }
+
+    #volume-container {
+      top: auto;
+      bottom: 80px;
+      right: 10px;
+      padding: 10px 15px;
+    }
+
+    #volume-text {
+      font-size: 14px;
+    }
+
+    #volume-btn {
+      width: 55px;
+      height: 55px;
+      font-size: 28px;
+    }
+
+    #play-button {
+      font-size: 22px;
+      padding: 14px 28px;
+      margin-top: 10px;
+    }
+
+    input#bet {
+      font-size: 18px;
+      padding: 10px;
+      width: 140px;
+    }
+
+    #multipliers {
+      position: relative;
+      top: auto;
+      right: auto;
+      margin: 20px auto;
+      width: 90%;
+    }
+
+    table {
+      font-size: 12px;
+      width: 100%;
+    }
+
+    #footer {
+      font-size: 12px;
+      bottom: 5px;
+      right: 5px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -292,29 +356,20 @@ function play(){
 
   const messageDiv = document.getElementById("message");
   messageDiv.classList.remove("win-message","lose-message");
-
-  // limpa destaques antigos
-  document.querySelectorAll(".slot-cell").forEach(cell=>{
-    cell.classList.remove("highlight");
-  });
-
   messageDiv.innerText="Girando... 🎲";
 
   const slotCells = document.querySelectorAll(".slot-cell");
+  slotCells.forEach(cell => cell.classList.remove("slot-win"));
+
   let finalResult=[];
   for(let i=0;i<9;i++){ finalResult.push(getRandomSymbol()); }
 
   let spins=0;
   const interval = setInterval(()=>{
     spins++;
-    slotCells.forEach((cell,idx)=>{
-      cell.classList.add("slot-spin");
-      cell.innerText=getRandomSymbol();
-    });
-
+    slotCells.forEach((cell,idx)=>{ cell.classList.add("slot-spin"); cell.innerText=getRandomSymbol(); });
     if(spins>15){
       clearInterval(interval);
-      // para colunas em tempos diferentes
       stopColumn(0, finalResult);
       setTimeout(()=>stopColumn(1, finalResult), 400);
       setTimeout(()=>stopColumn(2, finalResult), 700);
@@ -333,26 +388,18 @@ function stopColumn(col, finalResult){
 }
 
 function checkWin(finalResult, bet, messageDiv, winSound){
-  const lines=[
-    [0,1,2],[3,4,5],[6,7,8], // horizontais
-    [0,4,8],[2,4,6]          // diagonais
-  ];
+  const lines=[ [0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6] ];
   const winLines=[];
   lines.forEach(line=>{
     const [a,b,c]=line;
-    if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]){
-      winLines.push({symbol:finalResult[a],line});
-    }
+    if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]){ winLines.push({symbol:finalResult[a],line}); }
   });
 
   if(winLines.length>0){
     let totalWin=0;
     winLines.forEach(win=>{
       totalWin+=bet*multipliers[win.symbol];
-      // destaca os slots vencedores
-      win.line.forEach(idx=>{
-        document.querySelectorAll(".slot-cell")[idx].classList.add("highlight");
-      });
+      win.line.forEach(idx=> document.querySelectorAll(".slot-cell")[idx].classList.add("slot-win"));
     });
     balance+=totalWin;
     messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
@@ -375,5 +422,3 @@ checkBet();
 
 </body>
 </html>
-
-
