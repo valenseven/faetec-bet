@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
-<!-- Meta viewport para mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<!-- Fonte Cassino -->
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
 <style>
 /* Vídeo de fundo */
@@ -26,7 +24,7 @@ body {
     overflow: hidden;
     touch-action: none;
 }
-html, body { overflow-x: hidden; } /* evita overflow horizontal */
+html, body { overflow-x: hidden; }
 
 /* Logo */
 #logo-container {
@@ -113,6 +111,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     padding: 4px 8px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    z-index: 70;
 }
 #volume-text { font-weight: bold; margin-right: 5px; color: black; font-size: 14px; }
 #volume-btn {
@@ -141,21 +140,21 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
 #footer {
     position: fixed;
-    bottom: 10px;
+    bottom: 20px;
     right: 10px;
     font-size: 13px;
     color: white;
     text-shadow: 1px 1px 3px black;
 }
 
-/* ------------------------- Modal Multiplicadores ------------------------- */
+/* Modal multiplicadores */
 #multiplier-icon {
     position: fixed;
-    top: 120px;
-    right: 20px;
+    top: 80px;
+    right: 10px;
     font-size: 44px;
     cursor: pointer;
-    z-index: 60;
+    z-index: 70;
     background: gold;
     color: #8b0000;
     border: 3px solid orange;
@@ -205,7 +204,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     color: white;
 }
 
-/* ------------------------- Ajustes só para celular ------------------------- */
+/* Ajustes mobile */
 @media screen and (max-width: 768px) {
     body { overflow-y: auto; }
 
@@ -230,22 +229,24 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
 
     #volume-container {
-        top: 8px;
-        right: 8px;
+        top: 10px;
+        left: 10px;
+        right: auto;
         padding: 3px 6px;
     }
     #volume-text { font-size: 12px; margin-right: 3px; }
     #volume-btn { width: 36px; height: 36px; font-size: 18px; }
 
-    #multiplier-icon { top: 50px; right: 15px; font-size: 28px; }
+    #multiplier-icon { top: 60px; right: 10px; font-size: 28px; }
+
     #multiplier-modal { width: 95vw; max-width: 280px; }
     #multiplier-modal table { font-size: 12px; }
 
     #message { font-size: 14px; margin: 8px; }
-    #footer { position: relative; margin: 8px auto; font-size: 11px; }
+    #footer { position: relative; margin: 20px auto 8px auto; font-size: 11px; }
 }
 
-/* ------------------------- Zoom inteligente mobile ------------------------- */
+/* Zoom inteligente mobile */
 body.mobile-layout #logo-container,
 body.mobile-layout #slot,
 body.mobile-layout #volume-container,
@@ -320,7 +321,6 @@ body.mobile-layout #multiplier-modal {
 <div id="footer">📚 Projeto escolar - FAETEC</div>
 
 <script>
-// --- JS Original mantido ---
 let balance = 1000;
 let musicOn = false;
 let spinning = false;
@@ -332,26 +332,38 @@ const volumeBtn = document.getElementById("volume-btn");
 const bgMusic = document.getElementById("bg-music");
 
 function toggleMusic(){
-    if(musicOn){ bgMusic.pause(); volumeBtn.innerText="🔇"; musicOn=false; } 
+    if(musicOn){ bgMusic.pause(); volumeBtn.innerText="🔇"; musicOn=false; }
     else{ bgMusic.play().catch(e=>console.log(e)); volumeBtn.innerText="🔊"; musicOn=true; }
 }
 
-function checkBet(){ const bet = parseInt(betInput.value); if(spinning || !bet || bet>balance){ playBtn.disabled=true; } else{ playBtn.disabled=false; } }
+function checkBet(){
+    const bet=parseInt(betInput.value);
+    playBtn.disabled = spinning || !bet || bet>balance;
+}
 
 function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
 
 function play(){
     if(spinning) return;
-    const spinSound=document.getElementById("spin-sound"), winSound=document.getElementById("win-sound");
-    let bet=parseInt(betInput.value); if(!bet||bet<=0||bet>balance) return;
+    const spinSound=document.getElementById("spin-sound");
+    const winSound=document.getElementById("win-sound");
+    let bet=parseInt(betInput.value);
+    if(!bet || bet<=0 || bet>balance) return;
     spinning=true; checkBet();
     spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e));
-    const messageDiv=document.getElementById("message"); messageDiv.classList.remove("win-message","lose-message"); messageDiv.innerText="Girando... 🎲";
-    const slotCells=document.querySelectorAll(".slot-cell"); slotCells.forEach(cell=>cell.classList.remove("slot-win"));
-    let finalResult=[]; for(let i=0;i<9;i++) finalResult.push(getRandomSymbol());
+    const messageDiv=document.getElementById("message");
+    messageDiv.classList.remove("win-message","lose-message"); messageDiv.innerText="Girando... 🎲";
+
+    const slotCells=document.querySelectorAll(".slot-cell");
+    slotCells.forEach(cell=>cell.classList.remove("slot-win"));
+
+    let finalResult=[];
+    for(let i=0;i<9;i++) finalResult.push(getRandomSymbol());
+
     let spins=0;
     const interval=setInterval(()=>{
-        spins++; slotCells.forEach(cell=>{ cell.classList.add("slot-spin"); cell.innerText=getRandomSymbol(); });
+        spins++;
+        slotCells.forEach(cell=>{ cell.classList.add("slot-spin"); cell.innerText=getRandomSymbol(); });
         if(spins>15){
             clearInterval(interval);
             stopColumn(0,finalResult);
@@ -362,16 +374,36 @@ function play(){
     },150);
 }
 
-function stopColumn(col,finalResult){ const slotCells=document.querySelectorAll(".slot-cell"); for(let row=0;row<3;row++){ let idx=row*3+col; slotCells[idx].innerText=finalResult[idx]; slotCells[idx].classList.remove("slot-spin"); } }
+function stopColumn(col,finalResult){
+    const slotCells=document.querySelectorAll(".slot-cell");
+    for(let row=0;row<3;row++){
+        let idx=row*3+col;
+        slotCells[idx].innerText=finalResult[idx];
+        slotCells[idx].classList.remove("slot-spin");
+    }
+}
 
 function checkWin(finalResult,bet,messageDiv,winSound){
     const lines=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6]]; const winLines=[];
     lines.forEach(line=>{ const [a,b,c]=line; if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]) winLines.push({symbol:finalResult[a],line}); });
     if(winLines.length>0){
-        let totalWin=0; winLines.forEach(win=>{ totalWin+=bet*multipliers[win.symbol]; const slotCells=document.querySelectorAll(".slot-cell"); win.line.forEach(idx=>slotCells[idx].classList.add("slot-win")); });
-        balance+=totalWin; messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`; messageDiv.classList.add("win-message"); winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
-    } else{ balance-=bet; messageDiv.innerText="😢 Foi quase, tente novamente!"; messageDiv.classList.add("lose-message"); }
-    document.getElementById("balance").innerText=balance; spinning=false; checkBet();
+        let totalWin=0;
+        winLines.forEach(win=>{
+            totalWin+=bet*multipliers[win.symbol];
+            const slotCells=document.querySelectorAll(".slot-cell");
+            win.line.forEach(idx=>slotCells[idx].classList.add("slot-win"));
+        });
+        balance+=totalWin;
+        messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
+        messageDiv.classList.add("win-message");
+        winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
+    } else {
+        balance-=bet;
+        messageDiv.innerText="😢 Foi quase, tente novamente!";
+        messageDiv.classList.add("lose-message");
+    }
+    document.getElementById("balance").innerText=balance;
+    spinning=false; checkBet();
 }
 
 betInput.addEventListener("input", checkBet); checkBet();
