@@ -8,244 +8,82 @@
 <style>
 /* Vídeo de fundo */
 #bg-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;
 }
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    color: #fff;
-    margin: 0;
-    overflow: hidden;
-    touch-action: none;
+    font-family: Arial, sans-serif; text-align: center; color: #fff; margin: 0; overflow: hidden; touch-action: none;
 }
-html, body { overflow-x: hidden; }
 
 /* Logo */
 #logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-    border: 5px solid gold;
-    border-radius: 20px;
-    padding: 10px 20px;
-    width: fit-content;
-    max-width: 90%;
-    animation: borderGlow 1s infinite alternate;
-    background: rgba(0,0,0,0.4);
+    display: flex; justify-content: center; align-items: center; margin: 20px auto; border: 5px solid gold;
+    border-radius: 20px; padding: 10px 20px; width: fit-content; max-width: 90%; animation: borderGlow 1s infinite alternate; background: rgba(0,0,0,0.4);
 }
-#logo-text {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 54px;
-    font-weight: bold;
-    color: gold;
-    text-shadow: 0 0 6px gold, 0 0 12px orange;
-    animation: shine 4s infinite linear;
-}
-@keyframes borderGlow {
-    0% { border-color: gold; box-shadow: 0 0 10px gold; }
-    50% { border-color: orange; box-shadow: 0 0 18px orange; }
-    100% { border-color: gold; box-shadow: 0 0 10px gold; }
-}
-@keyframes shine {
-    0% { text-shadow: 0 0 6px gold, 0 0 12px orange; }
-    50% { text-shadow: 0 0 12px gold, 0 0 20px orange; transform: scale(1.03); }
-    100% { text-shadow: 0 0 6px gold, 0 0 12px orange; transform: scale(1); }
-}
+#logo-text { font-family: 'Cinzel Decorative', serif; font-size: 54px; font-weight: bold; color: gold; text-shadow: 0 0 6px gold, 0 0 12px orange; animation: shine 4s infinite linear; }
+@keyframes borderGlow { 0% { border-color: gold; box-shadow: 0 0 10px gold; } 50% { border-color: orange; box-shadow: 0 0 18px orange; } 100% { border-color: gold; box-shadow: 0 0 10px gold; } }
+@keyframes shine { 0% { text-shadow: 0 0 6px gold, 0 0 12px orange; } 50% { text-shadow: 0 0 12px gold, 0 0 20px orange; transform: scale(1.03); } 100% { text-shadow: 0 0 6px gold, 0 0 12px orange; transform: scale(1); } }
 
-/* Slot machine em grade 3x3 */
-#slot {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 12px;
-    justify-content: center;
-    align-items: center;
-    font-size: 52px;
-    margin: 30px auto;
-    width: fit-content;
-}
-.slot-cell {
-    padding: 20px;
-    border: 4px solid gold;
-    text-shadow: 2px 2px 6px black;
-    background: rgba(0,0,0,0.4);
-    border-radius: 14px;
-    transition: transform 0.2s, background 0.3s;
-}
+/* Slot machine 3x3 */
+#slot { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 12px; justify-content: center; align-items: center; font-size: 52px; margin: 30px auto; width: fit-content; }
+.slot-cell { padding: 20px; border: 4px solid gold; text-shadow: 2px 2px 6px black; background: rgba(0,0,0,0.4); border-radius: 14px; transition: transform 0.2s, background 0.3s; }
 .slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
 .slot-win { background: gold !important; color: black; font-weight: bold; }
 
 .balance { font-size: 18px; margin: 10px; }
-
-input, button {
-    padding: 8px;
-    font-size: 16px;
-    margin: 5px;
-    border-radius: 8px;
-    border: none;
-}
-button {
-    background: gold;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    transition: all 0.2s;
-}
+input, button { padding: 8px; font-size: 16px; margin: 5px; border-radius: 8px; border: none; }
+button { background: gold; cursor: pointer; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.6); transition: all 0.2s; }
 button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
 button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
-/* Botão de volume */
-#volume-container {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    align-items: center;
-    background: gold;
-    padding: 4px 8px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    z-index: 70;
-}
-#volume-text { font-weight: bold; margin-right: 5px; color: black; font-size: 14px; }
-#volume-btn {
-    font-size: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    color: black;
-    background: gold;
-    border: none;
-    cursor: pointer;
-}
+/* Mensagens */
+#message { margin-top: 10px; font-size: 18px; text-shadow: 1px 1px 4px black; transition: all 0.3s ease; }
+.win-message { font-size: 36px; color: gold; font-weight: bold; text-shadow: 2px 2px 10px black,0 0 15px gold,0 0 25px orange; }
+.lose-message { font-size: 28px; color: red; font-weight: bold; text-shadow: 2px 2px 6px black,0 0 10px darkred; }
 
-#message {
-    margin-top: 10px;
-    font-size: 18px;
-    text-shadow: 1px 1px 4px black;
-    transition: all 0.3s ease;
-}
-.win-message { font-size: 36px; color: gold; font-weight: bold; text-shadow: 2px 2px 10px black, 0 0 15px gold, 0 0 25px orange; }
-.lose-message { font-size: 28px; color: red; font-weight: bold; text-shadow: 2px 2px 6px black, 0 0 10px darkred; }
+#footer { position: fixed; bottom: 20px; right: 10px; font-size: 13px; color: white; text-shadow: 1px 1px 3px black; }
 
-#footer {
-    position: fixed;
-    bottom: 20px;
-    right: 10px;
-    font-size: 13px;
-    color: white;
-    text-shadow: 1px 1px 3px black;
-}
-
-/* Modal multiplicadores */
-#multiplier-icon {
-    position: fixed;
-    top: 80px;
-    right: 10px;
-    font-size: 44px;
-    cursor: pointer;
-    z-index: 70;
-    background: gold;
-    color: #8b0000;
-    border: 3px solid orange;
-    border-radius: 50%;
-    padding: 8px;
-    box-shadow: 0 6px 20px rgba(255,215,0,0.35), 0 0 30px rgba(255,165,0,0.25);
+/* Botões de Multiplicadores e Config */
+.button-icon {
+    position: fixed; cursor: pointer; z-index: 70;
+    background: gold; color: #8b0000; border: 3px solid orange;
+    border-radius: 50%; padding: 8px; box-shadow: 0 6px 20px rgba(255,215,0,0.35),0 0 30px rgba(255,165,0,0.25);
     transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
-#multiplier-icon:hover { transform: scale(1.15); box-shadow: 0 8px 30px rgba(255,215,0,0.5); }
+.button-icon:hover { transform: scale(1.15); box-shadow: 0 8px 30px rgba(255,215,0,0.5); }
+#multiplier-icon { top: 160px; right: 10px; font-size: 28px; }
+#settings-icon { top: 100px; right: 10px; font-size: 28px; }
 
-#multiplier-modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.9);
-    padding: 20px;
-    border: 3px solid gold;
-    border-radius: 15px;
-    z-index: 100;
-    max-width: 90vw;
-    width: 320px;
+/* Modais */
+.modal {
+    display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    background: rgba(0,0,0,0.9); padding: 20px; border: 3px solid gold; border-radius: 15px; z-index: 100;
+    max-width: 90vw; width: 320px;
 }
-#multiplier-modal table {
-    border-collapse: collapse;
-    width: 100%;
-    background: rgba(0,0,0,0.6);
-    border-radius: 8px;
-    overflow: hidden;
-    font-size: 14px;
-}
-#multiplier-modal th, #multiplier-modal td {
-    padding: 6px 10px;
-    border: 1px solid gold;
-    color: white;
-    text-shadow: 1px 1px 2px black;
-}
-#multiplier-modal th { background: gold; color: black; font-weight: bold; }
-#multiplier-modal .close-btn {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    color: white;
-}
+.modal table { border-collapse: collapse; width: 100%; background: rgba(0,0,0,0.6); border-radius: 8px; overflow: hidden; font-size: 14px; }
+.modal th, .modal td { padding: 6px 10px; border: 1px solid gold; color: white; text-shadow: 1px 1px 2px black; }
+.modal th { background: gold; color: black; font-weight: bold; }
+.modal .close-btn { position: absolute; top:5px; right:10px; font-size:20px; cursor:pointer; font-weight:bold; color:white; }
 
-/* Ajustes mobile */
-@media screen and (max-width: 768px) {
-    body { overflow-y: auto; }
+/* Ajustes Mobile */
+@media screen and (max-width:768px) {
+    body { overflow-y:auto; }
+    #logo-text { font-size:32px; } #logo-container { margin:10px auto; padding:6px 12px; border-width:3px; }
+    #slot { grid-gap:6px; font-size:32px; margin:10px auto; width:90vw; max-width:320px; }
+    .slot-cell { padding:10px; font-size:24px; min-height:50px; border-width:2px; }
+    input#bet { font-size:14px; padding:6px; width:100px; margin-right:5px; } 
+    #play-button { font-size:16px; padding:10px 16px; margin-left:5px; }
+    #message { font-size:14px; margin-top:120px; }
+    #footer { position:relative; margin:30px auto 15px auto; font-size:11px; }
 
-    #logo-text { font-size: 32px; }
-    #logo-container { margin: 10px auto; padding: 6px 12px; border-width: 3px; }
+    /* Ajuste dos botões no celular para não sobrepor */
+    #multiplier-icon { top: 220px; right:10px; }
+    #settings-icon { top:160px; right:10px; }
 
-    #slot {
-        grid-gap: 6px;
-        font-size: 32px;
-        margin: 10px auto;
-        width: 90vw;
-        max-width: 320px;
-    }
-    .slot-cell {
-        padding: 10px;
-        font-size: 24px;
-        min-height: 50px;
-        border-width: 2px;
-    }
-
-    input#bet { font-size: 14px; padding: 6px; width: 100px; margin-right: 5px; }
-    #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
-
-    /* Texto de mensagem mais para cima */
-    #message { font-size: 14px; margin-top: 120px; }
-
-    /* Botão de música bem mais para baixo */
-    #volume-container { bottom: 80px; top: auto; left: 10px; right: auto; padding: 3px 6px; }
-    #volume-text { font-size: 12px; margin-right: 3px; }
-    #volume-btn { width: 36px; height: 36px; font-size: 18px; }
-
-    #multiplier-icon { top: 160px; right: 10px; font-size: 28px; }
-
-    #multiplier-modal { width: 95vw; max-width: 280px; }
-    #multiplier-modal table { font-size: 12px; }
-
-    #footer { position: relative; margin: 30px auto 15px auto; font-size: 11px; }
 }
 </style>
 </head>
 <body>
+
 <video autoplay muted loop id="bg-video">
     <source src="videocassino.mp4" type="video/mp4">
 </video>
@@ -260,11 +98,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
 <div class="balance">💰 Saldo: R$ <span id="balance">1000</span></div>
 
-<div id="volume-container">
-    <span id="volume-text">Música:</span>
-    <button id="volume-btn" onclick="toggleMusic()">🔇</button>
-</div>
-
 <div>
     <input type="number" id="bet" placeholder="Valor da aposta" min="1">
     <button id="play-button" onclick="play()">🎲 Jogar</button>
@@ -278,112 +111,51 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
 
 <div id="message"></div>
 
-<div id="multiplier-icon" onclick="showMultiplierModal()">📊</div>
+<!-- Botões Modais -->
+<div id="multiplier-icon" class="button-icon" onclick="showModal('multiplier-modal')">📊</div>
+<div id="settings-icon" class="button-icon" onclick="showModal('settings-modal')">⚙️</div>
 
-<div id="multiplier-modal">
-    <div class="close-btn" onclick="closeMultiplierModal()">✖</div>
+<!-- Modal multiplicadores -->
+<div id="multiplier-modal" class="modal">
+    <div class="close-btn" onclick="closeModal('multiplier-modal')">✖</div>
     <h3 style="color:gold; text-align:center;">Tabela de Multiplicadores</h3>
-    <p style="color:#ffcc00; font-weight:bold; text-align:center; margin-top:6px;">
-        ⚠️ Atenção: este projeto ainda está em andamento e estamos trabalhando em um port melhor para celular.
-    </p>
     <table>
         <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
-        <tr><td class="spade">♠️</td><td>x1.5</td></tr>
-        <tr><td class="diamond">♦️</td><td>x2</td></tr>
-        <tr><td class="club">🧧</td><td>x2.5</td></tr>
-        <tr><td class="heart">❤️</td><td>x3</td></tr>
-        <tr><td class="joker">🃏</td><td>x5</td></tr>
+        <tr><td>♠️</td><td>x1.5</td></tr>
+        <tr><td>♦️</td><td>x2</td></tr>
+        <tr><td>🧧</td><td>x2.5</td></tr>
+        <tr><td>❤️</td><td>x3</td></tr>
+        <tr><td>🃏</td><td>x5</td></tr>
     </table>
-    <p style="color:white; margin-top:10px;">Só ganha quando acerta pelo menos 3 <strong>slots</strong> iguais na vertical ou diagonal.</p>
+</div>
+
+<!-- Modal configurações -->
+<div id="settings-modal" class="modal">
+    <div class="close-btn" onclick="closeModal('settings-modal')">✖</div>
+    <h3 style="color:gold; text-align:center;">Configurações de Áudio</h3>
+    <div style="margin-top:10px; text-align:center;">
+        <button onclick="toggleBgMusic()">🎵 Música de Fundo</button>
+        <button onclick="toggleSpinSound()">🎲 Som do Giro</button>
+    </div>
 </div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
 
 <script>
-let balance=1000; let musicOn=false; let spinning=false;
-const weightedSymbols=["♠️","♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","🧧","❤️","❤️","❤️","🃏","🃏"];
-const multipliers={"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
+let balance=1000; let spinning=false; let musicOn=false; let spinOn=true;
 const playBtn=document.getElementById("play-button"); const betInput=document.getElementById("bet");
-const volumeBtn=document.getElementById("volume-btn"); const bgMusic=document.getElementById("bg-music");
+const bgMusic=document.getElementById("bg-music"); const spinSound=document.getElementById("spin-sound");
 
-function toggleMusic(){ if(musicOn){ bgMusic.pause(); volumeBtn.innerText="🔇"; musicOn=false; } 
-else{ bgMusic.play().catch(e=>console.log(e)); volumeBtn.innerText="🔊"; musicOn=true; } }
-
-function checkBet(){ const bet=parseInt(betInput.value);
-    if(spinning || !bet || bet>balance){ playBtn.disabled=true; } else{ playBtn.disabled=false; } }
-
-function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
-
-function play(){
-    if(spinning) return;
-    const spinSound=document.getElementById("spin-sound");
-    const winSound=document.getElementById("win-sound");
-    let bet=parseInt(betInput.value);
-    if(!bet || bet<=0 || bet>balance) return;
-    spinning=true; checkBet();
-    spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e));
-    const messageDiv=document.getElementById("message");
-    messageDiv.classList.remove("win-message","lose-message"); messageDiv.innerText="Girando... 🎲";
-
-    const slotCells=document.querySelectorAll(".slot-cell");
-    slotCells.forEach(cell=>cell.classList.remove("slot-win"));
-
-    let finalResult=[];
-    for(let i=0;i<9;i++) finalResult.push(getRandomSymbol());
-
-    let spins=0;
-    const interval=setInterval(()=>{
-        spins++;
-        slotCells.forEach(cell=>{ cell.classList.add("slot-spin"); cell.innerText=getRandomSymbol(); });
-        if(spins>15){
-            clearInterval(interval);
-            stopColumn(0,finalResult);
-            setTimeout(()=>stopColumn(1,finalResult),400);
-            setTimeout(()=>stopColumn(2,finalResult),700);
-            setTimeout(()=>checkWin(finalResult,bet,messageDiv,winSound),900);
-        }
-    },150);
+function toggleBgMusic(){
+    if(musicOn){ bgMusic.pause(); musicOn=false; }
+    else{ bgMusic.play().catch(e=>console.log(e)); musicOn=true; }
 }
+function toggleSpinSound(){ spinOn=!spinOn; alert("Som do giro: "+(spinOn?"Ativado":"Desativado")); }
 
-function stopColumn(col,finalResult){
-    const slotCells=document.querySelectorAll(".slot-cell");
-    for(let row=0;row<3;row++){
-        let idx=row*3+col;
-        slotCells[idx].innerText=finalResult[idx];
-        slotCells[idx].classList.remove("slot-spin");
-    }
-}
+function showModal(id){ document.getElementById(id).style.display="block"; }
+function closeModal(id){ document.getElementById(id).style.display="none"; }
 
-function checkWin(finalResult,bet,messageDiv,winSound){
-    const lines=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6]]; const winLines=[];
-    lines.forEach(line=>{ const [a,b,c]=line; if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]) winLines.push({symbol:finalResult[a],line}); });
-    if(winLines.length>0){
-        let totalWin=0;
-        winLines.forEach(win=>{
-            totalWin+=bet*multipliers[win.symbol];
-            const slotCells=document.querySelectorAll(".slot-cell");
-            win.line.forEach(idx=>slotCells[idx].classList.add("slot-win"));
-        });
-        balance+=totalWin;
-        messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
-        messageDiv.classList.add("win-message");
-        winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
-    } else {
-        balance-=bet;
-        messageDiv.innerText="😢 Foi quase, tente novamente!";
-        messageDiv.classList.add("lose-message");
-    }
-    document.getElementById("balance").innerText=balance;
-    spinning=false; checkBet();
-}
-
-betInput.addEventListener("input", checkBet); checkBet();
-
-/* Modal Multiplicadores */
-function showMultiplierModal(){ document.getElementById("multiplier-modal").style.display="block"; }
-function closeMultiplierModal(){ document.getElementById("multiplier-modal").style.display="none"; }
-
-/* DETECÇÃO DE CELULAR */
+/* Detecção mobile */
 function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
 if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
