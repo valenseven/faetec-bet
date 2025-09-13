@@ -26,7 +26,7 @@ body {
     overflow: hidden;
     touch-action: none;
 }
-html, body { overflow-x: hidden; } /* evita que elementos saiam da tela */
+html, body { overflow-x: hidden; } /* evita overflow horizontal */
 
 /* Logo */
 #logo-container {
@@ -153,7 +153,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     position: fixed;
     top: 120px;
     right: 20px;
-    font-size: 44px; /* aumentado para mais destaque */
+    font-size: 44px;
     cursor: pointer;
     z-index: 60;
     background: gold;
@@ -205,7 +205,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     color: white;
 }
 
-/* ------------------------- Ajustes só para celular (media query) ------------------------- */
+/* ------------------------- Ajustes só para celular ------------------------- */
 @media screen and (max-width: 768px) {
     body { overflow-y: auto; }
 
@@ -216,7 +216,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
         grid-gap: 6px;
         font-size: 32px;
         margin: 10px auto;
-        width: 95vw;
+        width: 90vw;
         max-width: 320px;
     }
     .slot-cell {
@@ -226,7 +226,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
         border-width: 2px;
     }
 
-    input#bet { font-size: 14px; padding: 6px; width: 110px; margin-right: 5px; }
+    input#bet { font-size: 14px; padding: 6px; width: 100px; margin-right: 5px; }
     #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
 
     #volume-container {
@@ -238,39 +238,31 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     #volume-btn { width: 36px; height: 36px; font-size: 18px; }
 
     #multiplier-icon { top: 50px; right: 15px; font-size: 28px; }
-    #multiplier-modal { width: 90vw; max-width: 280px; }
+    #multiplier-modal { width: 95vw; max-width: 280px; }
     #multiplier-modal table { font-size: 12px; }
 
     #message { font-size: 14px; margin: 8px; }
     #footer { position: relative; margin: 8px auto; font-size: 11px; }
 }
 
-/* ------------------------- Zoom para mobile com mobile-layout ------------------------- */
-body.mobile-layout {
-  transform: scale(1.15);
-  transform-origin: top center;
+/* ------------------------- Zoom inteligente mobile ------------------------- */
+body.mobile-layout #logo-container,
+body.mobile-layout #slot,
+body.mobile-layout #volume-container,
+body.mobile-layout #multiplier-icon,
+body.mobile-layout #multiplier-modal {
+    transform: scale(1.1);
+    transform-origin: top center;
 }
 @media screen and (max-width: 400px) {
-  body.mobile-layout { transform: scale(1.05); }
+    body.mobile-layout #logo-container,
+    body.mobile-layout #slot,
+    body.mobile-layout #volume-container,
+    body.mobile-layout #multiplier-icon,
+    body.mobile-layout #multiplier-modal {
+        transform: scale(1.05);
+    }
 }
-
-/* Botão alternar layout */
-#toggle-mobile-btn {
-  position: fixed;
-  bottom: 15px;
-  left: 15px;
-  z-index: 1000;
-  background: #ffcc00;
-  color: #000;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 14px;
-  box-shadow: 0 0 10px #000;
-}
-#toggle-mobile-btn:hover { background: #ffdb4d; }
 </style>
 </head>
 <body>
@@ -328,6 +320,7 @@ body.mobile-layout {
 <div id="footer">📚 Projeto escolar - FAETEC</div>
 
 <script>
+// --- JS Original mantido ---
 let balance = 1000;
 let musicOn = false;
 let spinning = false;
@@ -339,115 +332,55 @@ const volumeBtn = document.getElementById("volume-btn");
 const bgMusic = document.getElementById("bg-music");
 
 function toggleMusic(){
-    if(musicOn){
-        bgMusic.pause();
-        volumeBtn.innerText="🔇";
-        musicOn=false;
-    } else{
-        bgMusic.play().catch(e=>console.log(e));
-        volumeBtn.innerText="🔊";
-        musicOn=true;
-    }
+    if(musicOn){ bgMusic.pause(); volumeBtn.innerText="🔇"; musicOn=false; } 
+    else{ bgMusic.play().catch(e=>console.log(e)); volumeBtn.innerText="🔊"; musicOn=true; }
 }
 
-function checkBet(){
-    const bet = parseInt(betInput.value);
-    if(spinning || !bet || bet > balance){
-        playBtn.disabled=true;
-    } else{
-        playBtn.disabled=false;
-    }
-}
+function checkBet(){ const bet = parseInt(betInput.value); if(spinning || !bet || bet>balance){ playBtn.disabled=true; } else{ playBtn.disabled=false; } }
 
-function getRandomSymbol(){
-    return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)];
-}
+function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
 
 function play(){
     if(spinning) return;
-    const spinSound = document.getElementById("spin-sound");
-    const winSound = document.getElementById("win-sound");
-    let bet = parseInt(betInput.value);
-    if(!bet || bet<=0 || bet>balance){ return; }
+    const spinSound=document.getElementById("spin-sound"), winSound=document.getElementById("win-sound");
+    let bet=parseInt(betInput.value); if(!bet||bet<=0||bet>balance) return;
     spinning=true; checkBet();
     spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e));
-    const messageDiv = document.getElementById("message");
-    messageDiv.classList.remove("win-message","lose-message");
-    messageDiv.innerText="Girando... 🎲";
-
-    const slotCells = document.querySelectorAll(".slot-cell");
-    slotCells.forEach(cell=>cell.classList.remove("slot-win"));
-
-    let finalResult=[];
-    for(let i=0;i<9;i++){ finalResult.push(getRandomSymbol()); }
-
+    const messageDiv=document.getElementById("message"); messageDiv.classList.remove("win-message","lose-message"); messageDiv.innerText="Girando... 🎲";
+    const slotCells=document.querySelectorAll(".slot-cell"); slotCells.forEach(cell=>cell.classList.remove("slot-win"));
+    let finalResult=[]; for(let i=0;i<9;i++) finalResult.push(getRandomSymbol());
     let spins=0;
-    const interval = setInterval(()=>{
-        spins++;
-        slotCells.forEach(cell=>{
-            cell.classList.add("slot-spin");
-            cell.innerText=getRandomSymbol();
-        });
+    const interval=setInterval(()=>{
+        spins++; slotCells.forEach(cell=>{ cell.classList.add("slot-spin"); cell.innerText=getRandomSymbol(); });
         if(spins>15){
             clearInterval(interval);
-            stopColumn(0, finalResult);
-            setTimeout(()=>stopColumn(1, finalResult), 400);
-            setTimeout(()=>stopColumn(2, finalResult), 700);
-            setTimeout(()=>checkWin(finalResult, bet, messageDiv, winSound), 900);
+            stopColumn(0,finalResult);
+            setTimeout(()=>stopColumn(1,finalResult),400);
+            setTimeout(()=>stopColumn(2,finalResult),700);
+            setTimeout(()=>checkWin(finalResult,bet,messageDiv,winSound),900);
         }
     },150);
 }
 
-function stopColumn(col, finalResult){
-    const slotCells = document.querySelectorAll(".slot-cell");
-    for(let row=0; row<3; row++){
-        let idx=row*3+col;
-        slotCells[idx].innerText=finalResult[idx];
-        slotCells[idx].classList.remove("slot-spin");
-    }
-}
+function stopColumn(col,finalResult){ const slotCells=document.querySelectorAll(".slot-cell"); for(let row=0;row<3;row++){ let idx=row*3+col; slotCells[idx].innerText=finalResult[idx]; slotCells[idx].classList.remove("slot-spin"); } }
 
-function checkWin(finalResult, bet, messageDiv, winSound){
-    const lines=[ [0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6] ];
-    const winLines=[];
-    lines.forEach(line=>{
-        const [a,b,c]=line;
-        if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]){
-            winLines.push({symbol:finalResult[a],line});
-        }
-    });
+function checkWin(finalResult,bet,messageDiv,winSound){
+    const lines=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6]]; const winLines=[];
+    lines.forEach(line=>{ const [a,b,c]=line; if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]) winLines.push({symbol:finalResult[a],line}); });
     if(winLines.length>0){
-        let totalWin=0;
-        winLines.forEach(win=>{
-            totalWin+=bet*multipliers[win.symbol];
-            const slotCells=document.querySelectorAll(".slot-cell");
-            win.line.forEach(idx=>slotCells[idx].classList.add("slot-win"));
-        });
-        balance+=totalWin;
-        messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
-        messageDiv.classList.add("win-message");
-        winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
-    } else {
-        balance-=bet;
-        messageDiv.innerText="😢 Foi quase, tente novamente!";
-        messageDiv.classList.add("lose-message");
-    }
-    document.getElementById("balance").innerText=balance;
-    spinning=false; checkBet();
+        let totalWin=0; winLines.forEach(win=>{ totalWin+=bet*multipliers[win.symbol]; const slotCells=document.querySelectorAll(".slot-cell"); win.line.forEach(idx=>slotCells[idx].classList.add("slot-win")); });
+        balance+=totalWin; messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`; messageDiv.classList.add("win-message"); winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
+    } else{ balance-=bet; messageDiv.innerText="😢 Foi quase, tente novamente!"; messageDiv.classList.add("lose-message"); }
+    document.getElementById("balance").innerText=balance; spinning=false; checkBet();
 }
 
-betInput.addEventListener("input", checkBet);
-checkBet();
+betInput.addEventListener("input", checkBet); checkBet();
 
-/* --------------------------- Modal Multiplicadores --------------------------- */
-function showMultiplierModal(){
-    document.getElementById("multiplier-modal").style.display="block";
-}
-function closeMultiplierModal(){
-    document.getElementById("multiplier-modal").style.display="none";
-}
+/* Modal Multiplicadores */
+function showMultiplierModal(){ document.getElementById("multiplier-modal").style.display="block"; }
+function closeMultiplierModal(){ document.getElementById("multiplier-modal").style.display="none"; }
 
-/* --------------------------- DETECÇÃO DE CELULAR --------------------------- */
+/* DETECÇÃO DE CELULAR */
 function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
 if(isMobile()){ document.body.classList.add("mobile-layout"); }
 
