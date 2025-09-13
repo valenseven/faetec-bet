@@ -28,11 +28,35 @@ button { background: gold; cursor:pointer; font-weight:bold; box-shadow:0 4px 12
 button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
 button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 
-#message { margin-top:10px; font-size:18px; text-shadow:1px 1px 4px black; transition: all 0.3s ease; }
-.win-message { font-size:36px; color:gold; font-weight:bold; text-shadow:2px 2px 10px black,0 0 15px gold,0 0 25px orange; }
+/* Mensagem de vitória com fundo dourado reluzente */
+#message { margin-top:10px; font-size:18px; text-shadow:1px 1px 4px black; transition: all 0.3s ease; display:inline-block; }
+.win-message {
+    font-size:48px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    text-shadow: 2px 2px 10px black, 0 0 15px gold, 0 0 25px orange;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    padding: 10px 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+    box-shadow: 0 0 20px gold, 0 0 40px orange;
+}
 .lose-message { font-size:28px; color:red; font-weight:bold; text-shadow:2px 2px 6px black,0 0 10px darkred; }
 
-#footer { position:fixed; bottom:20px; right:10px; font-size:13px; color:white; text-shadow:1px 1px 3px black; }
+@media screen and (max-width:768px){
+    body { overflow-y:auto; }
+    #logo-text { font-size:32px; } 
+    #logo-container { margin:10px auto; padding:6px 12px; border-width:3px; }
+    #slot { grid-gap:6px; font-size:32px; margin:10px auto; width:90vw; max-width:320px; }
+    .slot-cell { padding:10px; font-size:24px; min-height:50px; border-width:2px; }
+    input#bet { font-size:14px; padding:6px; width:100px; margin-right:5px; } 
+    #play-button { font-size:16px; padding:10px 16px; margin-left:5px; }
+    #message { font-size:32px; margin-top:15px; } /* proporcional mobile */
+    #footer { position:relative; margin:50px auto 15px auto; font-size:11px; }
+
+    #multiplier-icon { top:120px; right:10px; }
+    #settings-icon { top:60px; right:10px; }
+}
 
 /* Botões Modais */
 .button-icon { position: fixed; cursor:pointer; z-index:70; background: gold; color:#8b0000; border:3px solid orange; border-radius:50%; padding:8px; box-shadow:0 6px 20px rgba(255,215,0,0.35),0 0 30px rgba(255,165,0,0.25); transition: transform 0.18s ease, box-shadow 0.18s ease; }
@@ -47,22 +71,6 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 .modal th { background: gold; color: black; font-weight:bold; }
 .modal .close-btn { position:absolute; top:5px; right:10px; font-size:20px; cursor:pointer; font-weight:bold; color:white; }
 
-/* Ajustes Mobile */
-@media screen and (max-width:768px){
-    body { overflow-y:auto; }
-    #logo-text { font-size:32px; } 
-    #logo-container { margin:10px auto; padding:6px 12px; border-width:3px; }
-    #slot { grid-gap:6px; font-size:32px; margin:10px auto; width:90vw; max-width:320px; }
-    .slot-cell { padding:10px; font-size:24px; min-height:50px; border-width:2px; }
-    input#bet { font-size:14px; padding:6px; width:100px; margin-right:5px; } 
-    #play-button { font-size:16px; padding:10px 16px; margin-left:5px; }
-    #message { font-size:14px; margin-top:100px; } /* texto girando mais para cima */
-    #footer { position:relative; margin:50px auto 15px auto; font-size:11px; } /* footer mais pra baixo */
-
-    /* Botões móveis mais pra cima sem sobrepor slot ou título */
-    #multiplier-icon { top:120px; right:10px; }
-    #settings-icon { top:60px; right:10px; }
-}
 </style>
 </head>
 <body>
@@ -236,5 +244,3 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
-
-
