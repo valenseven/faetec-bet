@@ -56,11 +56,12 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
     .slot-cell { padding:10px; font-size:24px; min-height:50px; border-width:2px; }
     input#bet { font-size:14px; padding:6px; width:100px; margin-right:5px; } 
     #play-button { font-size:16px; padding:10px 16px; margin-left:5px; }
-    #message { font-size:14px; margin-top:120px; }
-    #footer { position:relative; margin:30px auto 15px auto; font-size:11px; }
+    #message { font-size:14px; margin-top:100px; } /* texto girando mais para cima */
+    #footer { position:relative; margin:50px auto 15px auto; font-size:11px; } /* footer mais pra baixo */
 
-    #multiplier-icon { top:220px; right:10px; }
-    #settings-icon { top:160px; right:10px; }
+    /* Botões móveis mais pra cima sem sobrepor slot ou título */
+    #multiplier-icon { top:180px; right:10px; }
+    #settings-icon { top:120px; right:10px; }
 }
 </style>
 </head>
@@ -93,12 +94,15 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 
 <!-- Botões -->
 <div id="multiplier-icon" class="button-icon" onclick="showModal('multiplier-modal')">📊</div>
-<div id="settings-icon" class="button-icon" onclick="showModal('settings-modal')">⚙️</div>
+<div id="settings-icon" class="button-icon" onclick="showModal('settings-modal')">🎵</div>
 
 <!-- Modal multiplicadores -->
 <div id="multiplier-modal" class="modal">
     <div class="close-btn" onclick="closeModal('multiplier-modal')">✖</div>
     <h3 style="color:gold; text-align:center;">Tabela de Multiplicadores</h3>
+    <p style="color:#ffcc00; font-weight:bold; text-align:center; margin-top:6px;">
+        ⚠️ Para ganhar precisa acertar pelo menos 3 slots iguais na vertical ou na diagonal.
+    </p>
     <table>
         <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
         <tr><td>♠️</td><td>x1.5</td></tr>
@@ -114,8 +118,8 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
     <div class="close-btn" onclick="closeModal('settings-modal')">✖</div>
     <h3 style="color:gold; text-align:center;">Configurações de Áudio</h3>
     <div style="margin-top:10px; text-align:center;">
-        <button onclick="toggleBgMusic()">🎵 Música de Fundo</button>
-        <button onclick="toggleSpinSound()">🎲 Som do Giro</button>
+        <button id="toggle-bg-music" onclick="toggleBgMusic()">🎵 Música de Fundo</button>
+        <button id="toggle-spin-sound" onclick="toggleSpinSound()">🎲 Som do Giro</button>
     </div>
 </div>
 
@@ -130,13 +134,19 @@ const betInput=document.getElementById("bet");
 const bgMusic=document.getElementById("bg-music");
 const spinSound=document.getElementById("spin-sound");
 const winSound=document.getElementById("win-sound");
+const settingsIcon=document.getElementById("settings-icon");
 
 function toggleBgMusic(){
-    if(musicOn){ bgMusic.pause(); musicOn=false; }
-    else{ bgMusic.play().catch(e=>console.log(e)); musicOn=true; }
+    musicOn=!musicOn;
+    if(musicOn) bgMusic.play().catch(e=>console.log(e));
+    else bgMusic.pause();
+    settingsIcon.innerText=musicOn?"🎵":"🔇";
 }
 
-function toggleSpinSound(){ spinOn=!spinOn; alert("Som do giro "+(spinOn?"ativado":"desativado")); }
+function toggleSpinSound(){
+    spinOn=!spinOn;
+    document.getElementById("toggle-spin-sound").innerText = spinOn?"🎲":"🔇";
+}
 
 function checkBet(){
     const bet=parseInt(betInput.value);
@@ -159,7 +169,6 @@ function play(){
 
     const slotCells=document.querySelectorAll(".slot-cell");
     slotCells.forEach(cell=>cell.classList.remove("slot-win"));
-
     let finalResult=[];
     for(let i=0;i<9;i++) finalResult.push(getRandomSymbol());
 
@@ -169,24 +178,24 @@ function play(){
         slotCells.forEach(cell=>{ cell.classList.add("slot-spin"); cell.innerText=getRandomSymbol(); });
         if(spins>15){
             clearInterval(interval);
-            stopColumn(0, finalResult);
-            setTimeout(()=>stopColumn(1, finalResult),400);
-            setTimeout(()=>stopColumn(2, finalResult),700);
-            setTimeout(()=>checkWin(finalResult, bet, messageDiv),900);
+            stopColumn(0,finalResult);
+            setTimeout(()=>stopColumn(1,finalResult),400);
+            setTimeout(()=>stopColumn(2,finalResult),700);
+            setTimeout(()=>checkWin(finalResult,bet,messageDiv,winSound),900);
         }
     },150);
 }
 
-function stopColumn(col, finalResult){
+function stopColumn(col,finalResult){
     const slotCells=document.querySelectorAll(".slot-cell");
     for(let row=0;row<3;row++){
-        const idx=row*3+col;
+        let idx=row*3+col;
         slotCells[idx].innerText=finalResult[idx];
         slotCells[idx].classList.remove("slot-spin");
     }
 }
 
-function checkWin(finalResult, bet, messageDiv){
+function checkWin(finalResult,bet,messageDiv,winSound){
     const lines=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6]];
     const winLines=[];
     lines.forEach(line=>{
@@ -213,13 +222,17 @@ function checkWin(finalResult, bet, messageDiv){
     spinning=false; checkBet();
 }
 
-betInput.addEventListener("input", checkBet); checkBet();
+betInput.addEventListener("input",checkBet);
+checkBet();
 
+/* Modais */
 function showModal(id){ document.getElementById(id).style.display="block"; }
 function closeModal(id){ document.getElementById(id).style.display="none"; }
 
+/* Detecção celular */
 function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
 if(isMobile()){ document.body.classList.add("mobile-layout"); }
+
 </script>
 </body>
 </html>
