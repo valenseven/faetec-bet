@@ -150,7 +150,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     position: fixed;
     top: 120px;
     right: 20px;
-    font-size: 44px;
+    font-size: 44px; /* aumentado para mais destaque */
     cursor: pointer;
     z-index: 60;
     background: gold;
@@ -202,43 +202,87 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     color: white;
 }
 
-/* ------------------------- Ajustes só para celular ------------------------- */
+/* ------------------------- Ajustes só para celular (media query correta) ------------------------- */
 @media screen and (max-width: 768px) {
     body { overflow-y: auto; }
+
     #logo-text { font-size: 32px; }
     #logo-container { margin: 10px auto; padding: 6px 12px; border-width: 3px; }
-    #slot { grid-gap: 6px; font-size: 32px; margin: 10px auto; width: 95vw; max-width: 320px; }
-    .slot-cell { padding: 10px; font-size: 24px; min-height: 50px; border-width: 2px; }
+
+    #slot {
+        grid-gap: 6px;
+        font-size: 32px;
+        margin: 10px auto;
+        width: 95vw;
+        max-width: 320px;
+    }
+    .slot-cell {
+        padding: 10px;
+        font-size: 24px;
+        min-height: 50px;
+        border-width: 2px;
+    }
+
     input#bet { font-size: 14px; padding: 6px; width: 110px; margin-right: 5px; }
     #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
-    #volume-container { top: 8px; right: 8px; padding: 3px 6px; }
+
+    #volume-container {
+        top: 8px;
+        right: 8px;
+        padding: 3px 6px;
+    }
     #volume-text { font-size: 12px; margin-right: 3px; }
     #volume-btn { width: 36px; height: 36px; font-size: 18px; }
+
     #multiplier-icon { top: 50px; right: 15px; font-size: 28px; }
     #multiplier-modal { width: 90vw; max-width: 280px; }
     #multiplier-modal table { font-size: 12px; }
+
     #message { font-size: 14px; margin: 8px; }
     #footer { position: relative; margin: 8px auto; font-size: 11px; }
 }
 
-/* Forçando layout mobile via JS */
-body.mobile-layout {
-    overflow-y: auto;
-}
+/* ------------------------- Estilos quando a classe mobile-layout for aplicada (sem tocar no media query) ------------------------- */
+body.mobile-layout { overflow-y: auto; }
 body.mobile-layout #logo-text { font-size: 32px; }
 body.mobile-layout #logo-container { margin: 10px auto; padding: 6px 12px; border-width: 3px; }
+
 body.mobile-layout #slot { grid-gap: 6px; font-size: 32px; margin: 10px auto; width: 95vw; max-width: 320px; }
 body.mobile-layout .slot-cell { padding: 10px; font-size: 24px; min-height: 50px; border-width: 2px; }
+
 body.mobile-layout input#bet { font-size: 14px; padding: 6px; width: 110px; margin-right: 5px; }
 body.mobile-layout #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
+
 body.mobile-layout #volume-container { top: 8px; right: 8px; padding: 3px 6px; }
 body.mobile-layout #volume-text { font-size: 12px; margin-right: 3px; }
 body.mobile-layout #volume-btn { width: 36px; height: 36px; font-size: 18px; }
+
 body.mobile-layout #multiplier-icon { top: 50px; right: 15px; font-size: 28px; }
 body.mobile-layout #multiplier-modal { width: 90vw; max-width: 280px; }
 body.mobile-layout #multiplier-modal table { font-size: 12px; }
+
 body.mobile-layout #message { font-size: 14px; margin: 8px; }
 body.mobile-layout #footer { position: relative; margin: 8px auto; font-size: 11px; }
+
+/* Botão para alternar layout manualmente (adicionado) */
+#toggle-mobile-btn {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  z-index: 1000;
+  background: #ffcc00;
+  color: #000;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 0 10px #000;
+}
+#toggle-mobile-btn:hover {
+  background: #ffdb4d;
+}
 </style>
 </head>
 <body>
@@ -294,6 +338,9 @@ body.mobile-layout #footer { position: relative; margin: 8px auto; font-size: 11
 </div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
+
+<!-- Botão manual para alternar entre layouts -->
+<button id="toggle-mobile-btn">Forçar Mobile</button>
 
 <script>
 let balance = 1000;
@@ -392,18 +439,22 @@ function checkWin(finalResult, bet, messageDiv, winSound){
             win.line.forEach(idx=>slotCells[idx].classList.add("slot-win"));
         });
         balance+=totalWin;
-        messageDiv.innerText=`🎉 Você ganhou R$ ${totalWin.toFixed(2)}!`;
+        messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
         messageDiv.classList.add("win-message");
         winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
     } else {
         balance-=bet;
-        messageDiv.innerText="😢 Você perdeu...";
+        messageDiv.innerText="😢 Foi quase, tente novamente!";
         messageDiv.classList.add("lose-message");
     }
-    document.getElementById("balance").innerText=balance.toFixed(2);
+    document.getElementById("balance").innerText=balance;
     spinning=false; checkBet();
 }
 
+betInput.addEventListener("input", checkBet);
+checkBet();
+
+/* --------------------------- Modal Multiplicadores --------------------------- */
 function showMultiplierModal(){
     document.getElementById("multiplier-modal").style.display="block";
 }
@@ -411,19 +462,29 @@ function closeMultiplierModal(){
     document.getElementById("multiplier-modal").style.display="none";
 }
 
-betInput.addEventListener("input", checkBet);
-window.onload=()=>{ checkBet(); };
-
-/* Forçar layout mobile quando necessário */
-function detectMobile(){
-    if(window.innerWidth <= 768){
-        document.body.classList.add("mobile-layout");
-    } else {
-        document.body.classList.remove("mobile-layout");
-    }
+/* --------------------------- DETECÇÃO DE CELULAR (regex corrigido) --------------------------- */
+function isMobile(){ 
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); 
 }
-window.addEventListener("resize", detectMobile);
-window.addEventListener("load", detectMobile);
+if(isMobile()){ 
+    document.body.classList.add("mobile-layout"); 
+}
+
+/* --------------------------- Alternar Mobile/PC (botão) --------------------------- */
+const toggleBtn = document.getElementById("toggle-mobile-btn");
+toggleBtn.addEventListener("click", ()=>{
+  document.body.classList.toggle("mobile-layout");
+  if(document.body.classList.contains("mobile-layout")){
+    toggleBtn.innerText = "Forçar PC";
+  } else {
+    toggleBtn.innerText = "Forçar Mobile";
+  }
+});
+
+/* Se carregou já em mobile, ajustar texto do botão */
+if(document.body.classList.contains("mobile-layout")){
+  toggleBtn.innerText = "Forçar PC";
+}
 </script>
 </body>
 </html>
