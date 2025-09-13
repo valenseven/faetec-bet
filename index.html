@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>🎰✨ FAETEC BET - Cassino Virtual ✨🎰</title>
+<!-- Meta viewport para mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <!-- Fonte Cassino -->
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -24,6 +26,7 @@ body {
     overflow: hidden;
     touch-action: none;
 }
+html, body { overflow-x: hidden; } /* evita que elementos saiam da tela */
 
 /* Logo */
 #logo-container {
@@ -202,7 +205,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     color: white;
 }
 
-/* ------------------------- Ajustes só para celular (media query correta) ------------------------- */
+/* ------------------------- Ajustes só para celular (media query) ------------------------- */
 @media screen and (max-width: 768px) {
     body { overflow-y: auto; }
 
@@ -242,29 +245,16 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     #footer { position: relative; margin: 8px auto; font-size: 11px; }
 }
 
-/* ------------------------- Estilos quando a classe mobile-layout for aplicada (sem tocar no media query) ------------------------- */
-body.mobile-layout { overflow-y: auto; }
-body.mobile-layout #logo-text { font-size: 32px; }
-body.mobile-layout #logo-container { margin: 10px auto; padding: 6px 12px; border-width: 3px; }
+/* ------------------------- Zoom para mobile com mobile-layout ------------------------- */
+body.mobile-layout {
+  transform: scale(1.15);
+  transform-origin: top center;
+}
+@media screen and (max-width: 400px) {
+  body.mobile-layout { transform: scale(1.05); }
+}
 
-body.mobile-layout #slot { grid-gap: 6px; font-size: 32px; margin: 10px auto; width: 95vw; max-width: 320px; }
-body.mobile-layout .slot-cell { padding: 10px; font-size: 24px; min-height: 50px; border-width: 2px; }
-
-body.mobile-layout input#bet { font-size: 14px; padding: 6px; width: 110px; margin-right: 5px; }
-body.mobile-layout #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
-
-body.mobile-layout #volume-container { top: 8px; right: 8px; padding: 3px 6px; }
-body.mobile-layout #volume-text { font-size: 12px; margin-right: 3px; }
-body.mobile-layout #volume-btn { width: 36px; height: 36px; font-size: 18px; }
-
-body.mobile-layout #multiplier-icon { top: 50px; right: 15px; font-size: 28px; }
-body.mobile-layout #multiplier-modal { width: 90vw; max-width: 280px; }
-body.mobile-layout #multiplier-modal table { font-size: 12px; }
-
-body.mobile-layout #message { font-size: 14px; margin: 8px; }
-body.mobile-layout #footer { position: relative; margin: 8px auto; font-size: 11px; }
-
-/* Botão para alternar layout manualmente (adicionado) */
+/* Botão alternar layout */
 #toggle-mobile-btn {
   position: fixed;
   bottom: 15px;
@@ -280,9 +270,7 @@ body.mobile-layout #footer { position: relative; margin: 8px auto; font-size: 11
   font-size: 14px;
   box-shadow: 0 0 10px #000;
 }
-#toggle-mobile-btn:hover {
-  background: #ffdb4d;
-}
+#toggle-mobile-btn:hover { background: #ffdb4d; }
 </style>
 </head>
 <body>
@@ -338,9 +326,6 @@ body.mobile-layout #footer { position: relative; margin: 8px auto; font-size: 11
 </div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
-
-<!-- Botão manual para alternar entre layouts -->
-<button id="toggle-mobile-btn">Forçar Mobile</button>
 
 <script>
 let balance = 1000;
@@ -462,29 +447,10 @@ function closeMultiplierModal(){
     document.getElementById("multiplier-modal").style.display="none";
 }
 
-/* --------------------------- DETECÇÃO DE CELULAR (regex corrigido) --------------------------- */
-function isMobile(){ 
-    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); 
-}
-if(isMobile()){ 
-    document.body.classList.add("mobile-layout"); 
-}
+/* --------------------------- DETECÇÃO DE CELULAR --------------------------- */
+function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
+if(isMobile()){ document.body.classList.add("mobile-layout"); }
 
-/* --------------------------- Alternar Mobile/PC (botão) --------------------------- */
-const toggleBtn = document.getElementById("toggle-mobile-btn");
-toggleBtn.addEventListener("click", ()=>{
-  document.body.classList.toggle("mobile-layout");
-  if(document.body.classList.contains("mobile-layout")){
-    toggleBtn.innerText = "Forçar PC";
-  } else {
-    toggleBtn.innerText = "Forçar Mobile";
-  }
-});
-
-/* Se carregou já em mobile, ajustar texto do botão */
-if(document.body.classList.contains("mobile-layout")){
-  toggleBtn.innerText = "Forçar PC";
-}
 </script>
 </body>
 </html>
