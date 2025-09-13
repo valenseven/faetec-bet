@@ -29,7 +29,7 @@ button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
 button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 
 #message { margin-top:10px; font-size:18px; text-shadow:1px 1px 4px black; transition: all 0.3s ease; }
-.win-message { font-size:48px; color:gold; font-weight:bold; background:linear-gradient(45deg, gold, orange); padding:8px 12px; border-radius:10px; display:inline-block; text-shadow:2px 2px 8px black; }
+.win-message { font-size:36px; color:gold; font-weight:bold; text-shadow:2px 2px 10px black,0 0 15px gold,0 0 25px orange; background:rgba(255,215,0,0.3); padding:6px 10px; border-radius:8px; display:inline-block; }
 .lose-message { font-size:28px; color:red; font-weight:bold; text-shadow:2px 2px 6px black,0 0 10px darkred; }
 
 #footer { position:fixed; bottom:20px; right:10px; font-size:13px; color:white; text-shadow:1px 1px 3px black; }
@@ -53,22 +53,22 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
     #logo-text { font-size:32px; } 
     #logo-container { margin:10px auto; padding:6px 12px; border-width:3px; }
     
-    /* Slots descendo */
-    #slot { grid-gap:6px; font-size:32px; margin:120px auto; width:90vw; max-width:320px; }
+    /* Slots levemente descendo */
+    #slot { grid-gap:6px; font-size:32px; margin:60px auto; width:90vw; max-width:320px; }
     .slot-cell { padding:10px; font-size:24px; min-height:50px; border-width:2px; }
     
     input#bet { font-size:14px; padding:6px; width:100px; margin-right:5px; } 
     #play-button { font-size:16px; padding:10px 16px; margin-left:5px; }
-    
-    /* Mensagem de giro, vitória e derrota descendo */
-    #message { font-size:14px; margin-top:180px; } 
 
-    /* Footer descendo */
-    #footer { position:relative; margin:160px auto 15px auto; font-size:11px; } 
+    /* Mensagem de giro/derrota/vitória descendo proporcionalmente */
+    #message { font-size:14px; margin-top:90px; }
+
+    /* Footer descendo proporcionalmente */
+    #footer { position:relative; margin:100px auto 15px auto; font-size:11px; }
 
     /* Botões móveis mais pra cima sem sobrepor slot ou título */
-    #multiplier-icon { top:80px; right:10px; }
-    #settings-icon { top:20px; right:10px; }
+    #multiplier-icon { top:40px; right:10px; }
+    #settings-icon { top:10px; right:10px; }
 }
 </style>
 </head>
@@ -243,3 +243,4 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
+
