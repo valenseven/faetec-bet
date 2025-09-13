@@ -29,7 +29,7 @@ button:hover:not(:disabled) { background: orange; transform: scale(1.05); }
 button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 
 #message { margin-top:10px; font-size:18px; text-shadow:1px 1px 4px black; transition: all 0.3s ease; }
-.win-message { font-size:36px; color:gold; font-weight:bold; text-shadow:2px 2px 10px black,0 0 15px gold,0 0 25px orange; background:rgba(255,215,0,0.3); padding:6px 10px; border-radius:8px; display:inline-block; }
+.win-message { font-size:36px; color:rgb(255, 255, 255); font-weight:bold; text-shadow:2px 2px 10px black,0 0 15px gold,0 0 25px orange; background:rgba(255,215,0,0.3); padding:6px 10px; border-radius:8px; display:inline-block; }
 .lose-message { font-size:28px; color:red; font-weight:bold; text-shadow:2px 2px 6px black,0 0 10px darkred; }
 
 #footer { position:fixed; bottom:20px; right:10px; font-size:13px; color:white; text-shadow:1px 1px 3px black; }
@@ -67,7 +67,7 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
     #footer { position:relative; margin:100px auto 15px auto; font-size:11px; }
 
     /* Botões móveis mais pra cima sem sobrepor slot ou título */
-    #multiplier-icon { top:40px; right:10px; }
+    #multiplier-icon { top:70px; right:10px; }
     #settings-icon { top:10px; right:10px; }
 }
 </style>
@@ -243,4 +243,3 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
-
