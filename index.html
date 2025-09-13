@@ -50,7 +50,8 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 /* Ajustes Mobile */
 @media screen and (max-width:768px){
     body { overflow-y:auto; }
-    #logo-text { font-size:32px; } #logo-container { margin:10px auto; padding:6px 12px; border-width:3px; }
+    #logo-text { font-size:32px; } 
+    #logo-container { margin:10px auto; padding:6px 12px; border-width:3px; }
     #slot { grid-gap:6px; font-size:32px; margin:10px auto; width:90vw; max-width:320px; }
     .slot-cell { padding:10px; font-size:24px; min-height:50px; border-width:2px; }
     input#bet { font-size:14px; padding:6px; width:100px; margin-right:5px; } 
@@ -124,25 +125,37 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 let balance=1000, musicOn=false, spinning=false, spinOn=true;
 const weightedSymbols=["♠️","♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","🧧","❤️","❤️","❤️","🃏","🃏"];
 const multipliers={"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
-const playBtn=document.getElementById("play-button"); const betInput=document.getElementById("bet");
-const volumeBtn=document.getElementById("volume-btn"); const bgMusic=document.getElementById("bg-music");
-const spinSound=document.getElementById("spin-sound"); const winSound=document.getElementById("win-sound");
+const playBtn=document.getElementById("play-button");
+const betInput=document.getElementById("bet");
+const bgMusic=document.getElementById("bg-music");
+const spinSound=document.getElementById("spin-sound");
+const winSound=document.getElementById("win-sound");
 
-function toggleBgMusic(){ if(musicOn){ bgMusic.pause(); musicOn=false; } else{ bgMusic.play().catch(e=>console.log(e)); musicOn=true; } }
+function toggleBgMusic(){
+    if(musicOn){ bgMusic.pause(); musicOn=false; }
+    else{ bgMusic.play().catch(e=>console.log(e)); musicOn=true; }
+}
+
 function toggleSpinSound(){ spinOn=!spinOn; alert("Som do giro "+(spinOn?"ativado":"desativado")); }
 
-function checkBet(){ const bet=parseInt(betInput.value); playBtn.disabled = spinning || !bet || bet>balance; }
+function checkBet(){
+    const bet=parseInt(betInput.value);
+    playBtn.disabled = spinning || !bet || bet>balance;
+}
+
 function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
 
 function play(){
     if(spinning) return;
-    let bet=parseInt(betInput.value);
+    const bet=parseInt(betInput.value);
     if(!bet || bet<=0 || bet>balance) return;
     spinning=true; checkBet();
 
     if(spinOn){ spinSound.currentTime=0; spinSound.play().catch(e=>console.log(e)); }
 
-    const messageDiv=document.getElementById("message"); messageDiv.classList.remove("win-message","lose-message"); messageDiv.innerText="Girando... 🎲";
+    const messageDiv=document.getElementById("message");
+    messageDiv.classList.remove("win-message","lose-message");
+    messageDiv.innerText="Girando... 🎲";
 
     const slotCells=document.querySelectorAll(".slot-cell");
     slotCells.forEach(cell=>cell.classList.remove("slot-win"));
@@ -166,8 +179,8 @@ function play(){
 
 function stopColumn(col, finalResult){
     const slotCells=document.querySelectorAll(".slot-cell");
-    for(let row=0; row<3; row++){
-        let idx=row*3+col;
+    for(let row=0;row<3;row++){
+        const idx=row*3+col;
         slotCells[idx].innerText=finalResult[idx];
         slotCells[idx].classList.remove("slot-spin");
     }
@@ -176,8 +189,10 @@ function stopColumn(col, finalResult){
 function checkWin(finalResult, bet, messageDiv){
     const lines=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6]];
     const winLines=[];
-    lines.forEach(line=>{ const [a,b,c]=line; if(finalResult[a]===finalResult[b]&&finalResult[b]===finalResult[c]) winLines.push({symbol:finalResult[a],line}); });
-
+    lines.forEach(line=>{
+        const [a,b,c]=line;
+        if(finalResult[a]===finalResult[b] && finalResult[b]===finalResult[c]) winLines.push({symbol:finalResult[a],line});
+    });
     if(winLines.length>0){
         let totalWin=0;
         winLines.forEach(win=>{
@@ -189,7 +204,7 @@ function checkWin(finalResult, bet, messageDiv){
         messageDiv.innerText=`🎉💥 PARABÉNS! Você ganhou R$ ${totalWin.toFixed(2)} 💥🎉`;
         messageDiv.classList.add("win-message");
         winSound.currentTime=0; winSound.play().catch(e=>console.log(e));
-    } else{
+    } else {
         balance-=bet;
         messageDiv.innerText="😢 Foi quase, tente novamente!";
         messageDiv.classList.add("lose-message");
@@ -200,11 +215,9 @@ function checkWin(finalResult, bet, messageDiv){
 
 betInput.addEventListener("input", checkBet); checkBet();
 
-/* Modais */
 function showModal(id){ document.getElementById(id).style.display="block"; }
 function closeModal(id){ document.getElementById(id).style.display="none"; }
 
-/* Mobile Layout */
 function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
 if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
