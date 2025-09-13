@@ -18,9 +18,40 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
 
 /* Slot machine 3x3 */
 #slot { display:grid; grid-template-columns:repeat(3,1fr); grid-gap:12px; justify-content:center; align-items:center; font-size:52px; margin:30px auto; width:fit-content; }
-.slot-cell { padding:20px; border:4px solid gold; text-shadow:2px 2px 6px black; background:rgba(0,0,0,0.4); border-radius:14px; transition: transform 0.2s, background 0.3s; }
-.slot-spin { background: rgba(255,215,0,0.3); transform: scale(1.2); }
-.slot-win { background: gold !important; color:black; font-weight:bold; }
+
+/* quadrados (estáticos durante o giro) */
+.slot-cell { padding:20px; border:4px solid gold; text-shadow:2px 2px 6px black; background:rgba(0,0,0,0.4); border-radius:14px; transition: transform 0.25s ease, background 0.4s ease, box-shadow 0.3s ease; overflow:hidden; animation: slotIdle 3s infinite ease-in-out; }
+.slot-cell:hover { transform: scale(1.08); background: rgba(255,215,0,0.15); box-shadow: 0 0 15px gold, 0 0 25px orange; } /* hover só no desktop */
+@keyframes slotIdle { 0% { box-shadow: 0 0 6px rgba(255,215,0,0.4); } 50% { box-shadow: 0 0 14px rgba(255,165,0,0.7); } 100% { box-shadow: 0 0 6px rgba(255,215,0,0.4); } }
+
+.slot-win { background: gold !important; color:black; font-weight:bold; box-shadow:0 0 20px gold,0 0 40px orange !important; }
+
+/* símbolo (emoji) dentro do slot - SOMENTE ele será animado */
+.slot-symbol { display:inline-block; font-size:inherit; }
+
+/* Animação tipo caça-níquel aplicada APENAS ao emoji */
+@keyframes slotRoll {
+  0%   { transform: translateY(-100%) scale(1.2); opacity: 0; }
+  30%  { transform: translateY(0) scale(1.05); opacity: 1; }
+  70%  { transform: translateY(10%) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+/* quando o cell tem classe .slot-spin, o span .slot-symbol roda */
+.slot-spin .slot-symbol {
+  animation: slotRoll 0.25s ease-out;
+}
+/* mantive a mudança de aparência do quadrado ao girar, sem transformar/escala-lo */
+.slot-spin { background: rgba(255,215,0,0.25); border-color: orange; }
+
+/* Animação de parada suave - só no emoji */
+@keyframes slotStop {
+  0%   { transform: translateY(-30%) scale(1.05); }
+  60%  { transform: translateY(5%) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+.slot-stop .slot-symbol {
+  animation: slotStop 0.35s ease-out;
+}
 
 .balance { font-size:18px; margin:10px; }
 input, button { padding:8px; font-size:16px; margin:5px; border-radius:8px; border:none; }
@@ -53,20 +84,15 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
     #logo-text { font-size:32px; } 
     #logo-container { margin:10px auto; padding:6px 12px; border-width:3px; }
     
-    /* Slots levemente descendo */
     #slot { grid-gap:6px; font-size:32px; margin:60px auto; width:90vw; max-width:320px; }
     .slot-cell { padding:10px; font-size:24px; min-height:50px; border-width:2px; }
     
     input#bet { font-size:14px; padding:6px; width:100px; margin-right:5px; } 
     #play-button { font-size:16px; padding:10px 16px; margin-left:5px; }
 
-    /* Mensagem de giro/derrota/vitória descendo proporcionalmente */
     #message { font-size:14px; margin-top:90px; }
-
-    /* Footer descendo proporcionalmente */
     #footer { position:relative; margin:100px auto 15px auto; font-size:11px; }
 
-    /* Botões móveis mais pra cima sem sobrepor slot ou título */
     #multiplier-icon { top:70px; right:10px; }
     #settings-icon { top:10px; right:10px; }
 }
@@ -92,9 +118,15 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 </div>
 
 <div id="slot">
-    <div class="slot-cell">❓</div><div class="slot-cell">❓</div><div class="slot-cell">❓</div>
-    <div class="slot-cell">❓</div><div class="slot-cell">❓</div><div class="slot-cell">❓</div>
-    <div class="slot-cell">❓</div><div class="slot-cell">❓</div><div class="slot-cell">❓</div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
+    <div class="slot-cell"><span class="slot-symbol">❓</span></div>
 </div>
 
 <div id="message"></div>
@@ -182,13 +214,20 @@ function play(){
     let spins=0;
     const interval=setInterval(()=>{
         spins++;
-        slotCells.forEach(cell=>{ cell.classList.add("slot-spin"); cell.innerText=getRandomSymbol(); });
+        slotCells.forEach(cell=>{
+            const symbolEl = cell.querySelector(".slot-symbol");
+            symbolEl.innerText=getRandomSymbol();
+            // reinicia animação apenas no emoji (span) mantendo o quadrado estático
+            cell.classList.remove("slot-spin");
+            void cell.offsetWidth; // forçar reflow
+            cell.classList.add("slot-spin");
+        });
         if(spins>15){
             clearInterval(interval);
             stopColumn(0,finalResult);
             setTimeout(()=>stopColumn(1,finalResult),400);
             setTimeout(()=>stopColumn(2,finalResult),700);
-            setTimeout(()=>checkWin(finalResult,bet,messageDiv,winSound),900);
+            setTimeout(()=>checkWin(finalResult,bet,messageDiv,winSound),1200);
         }
     },150);
 }
@@ -197,8 +236,11 @@ function stopColumn(col,finalResult){
     const slotCells=document.querySelectorAll(".slot-cell");
     for(let row=0;row<3;row++){
         let idx=row*3+col;
-        slotCells[idx].innerText=finalResult[idx];
+        const symbolEl = slotCells[idx].querySelector(".slot-symbol");
+        symbolEl.innerText=finalResult[idx];
         slotCells[idx].classList.remove("slot-spin");
+        slotCells[idx].classList.add("slot-stop");
+        setTimeout(()=>slotCells[idx].classList.remove("slot-stop"),400);
     }
 }
 
