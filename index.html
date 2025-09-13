@@ -228,38 +228,20 @@ button:disabled { cursor: not-allowed; opacity: 0.5; background: gray; }
     input#bet { font-size: 14px; padding: 6px; width: 100px; margin-right: 5px; }
     #play-button { font-size: 16px; padding: 10px 16px; margin-left: 5px; }
 
-    /* Ajuste posição botão de música e mensagem */
-    #volume-container { top: 70px; left: 10px; right: auto; padding: 3px 6px; }
+    /* Texto de mensagem mais para cima */
+    #message { font-size: 14px; margin-top: 120px; }
+
+    /* Botão de música bem mais para baixo */
+    #volume-container { bottom: 80px; top: auto; left: 10px; right: auto; padding: 3px 6px; }
     #volume-text { font-size: 12px; margin-right: 3px; }
     #volume-btn { width: 36px; height: 36px; font-size: 18px; }
 
-    #multiplier-icon { top: 120px; right: 10px; font-size: 28px; }
-
-    #message { font-size: 14px; margin: 8px; margin-top: 180px; } /* mensagem mais para baixo */
+    #multiplier-icon { top: 160px; right: 10px; font-size: 28px; }
 
     #multiplier-modal { width: 95vw; max-width: 280px; }
     #multiplier-modal table { font-size: 12px; }
 
-    #footer { position: relative; margin: 30px auto 15px auto; font-size: 11px; } /* footer mais distante dos slots */
-}
-
-/* Zoom inteligente mobile */
-body.mobile-layout #logo-container,
-body.mobile-layout #slot,
-body.mobile-layout #volume-container,
-body.mobile-layout #multiplier-icon,
-body.mobile-layout #multiplier-modal {
-    transform: scale(1.1);
-    transform-origin: top center;
-}
-@media screen and (max-width: 400px) {
-    body.mobile-layout #logo-container,
-    body.mobile-layout #slot,
-    body.mobile-layout #volume-container,
-    body.mobile-layout #multiplier-icon,
-    body.mobile-layout #multiplier-modal {
-        transform: scale(1.05);
-    }
+    #footer { position: relative; margin: 30px auto 15px auto; font-size: 11px; }
 }
 </style>
 </head>
@@ -318,25 +300,17 @@ body.mobile-layout #multiplier-modal {
 <div id="footer">📚 Projeto escolar - FAETEC</div>
 
 <script>
-let balance = 1000;
-let musicOn = false;
-let spinning = false;
-const weightedSymbols = ["♠️","♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","🧧","❤️","❤️","❤️","🃏","🃏"];
-const multipliers = {"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
-const playBtn = document.getElementById("play-button");
-const betInput = document.getElementById("bet");
-const volumeBtn = document.getElementById("volume-btn");
-const bgMusic = document.getElementById("bg-music");
+let balance=1000; let musicOn=false; let spinning=false;
+const weightedSymbols=["♠️","♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","🧧","❤️","❤️","❤️","🃏","🃏"];
+const multipliers={"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
+const playBtn=document.getElementById("play-button"); const betInput=document.getElementById("bet");
+const volumeBtn=document.getElementById("volume-btn"); const bgMusic=document.getElementById("bg-music");
 
-function toggleMusic(){
-    if(musicOn){ bgMusic.pause(); volumeBtn.innerText="🔇"; musicOn=false; }
-    else{ bgMusic.play().catch(e=>console.log(e)); volumeBtn.innerText="🔊"; musicOn=true; }
-}
+function toggleMusic(){ if(musicOn){ bgMusic.pause(); volumeBtn.innerText="🔇"; musicOn=false; } 
+else{ bgMusic.play().catch(e=>console.log(e)); volumeBtn.innerText="🔊"; musicOn=true; } }
 
-function checkBet(){
-    const bet=parseInt(betInput.value);
-    playBtn.disabled = spinning || !bet || bet>balance;
-}
+function checkBet(){ const bet=parseInt(betInput.value);
+    if(spinning || !bet || bet>balance){ playBtn.disabled=true; } else{ playBtn.disabled=false; } }
 
 function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
 
@@ -412,7 +386,6 @@ function closeMultiplierModal(){ document.getElementById("multiplier-modal").sty
 /* DETECÇÃO DE CELULAR */
 function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
 if(isMobile()){ document.body.classList.add("mobile-layout"); }
-
 </script>
 </body>
 </html>
