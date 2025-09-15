@@ -270,7 +270,7 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 <script>
 let balance=1000, musicOn=false, spinning=false;
 let spinOn=true, winOn=true, bonusOn=true;
-let forceBonus = true; // Para uso via console
+let forceBonus = false; // Para uso via console
 const weightedSymbols=["♠️","♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","🧧","❤️","❤️","❤️","🃏","🃏"];
 const multipliers={"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
 const playBtn=document.getElementById("play-button");
@@ -483,6 +483,7 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
+
 
 
 
