@@ -245,7 +245,7 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
         <tr><th>🔹 Símbolo</th><th>💥 Multiplicador</th></tr>
         <tr><td>♠️</td><td>x1.5</td></tr>
         <tr><td>♦️</td><td>x2</td></tr>
-        <tr><td>🧧</td><td>x2.5</td></tr>
+        <tr><td>💎</td><td>x2.5</td></tr>
         <tr><td>❤️</td><td>x3</td></tr>
         <tr><td>🃏</td><td>x5</td></tr>
     </table>
@@ -271,8 +271,8 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 let balance=1000, musicOn=false, spinning=false;
 let spinOn=true, winOn=true, bonusOn=true;
 let forceBonus = false; // Para uso via console
-const weightedSymbols=["♠️","♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","♦️","🧧","🧧","🧧","🧧","❤️","❤️","❤️","🃏","🃏"];
-const multipliers={"♠️":1.5,"♦️":2,"🧧":2.5,"❤️":3,"🃏":5};
+const weightedSymbols=["♠️","♠️","♠️","♠️","♠️","♠️","♠️","♦️","♦️","♦️","♦️","♦️","💎","💎","💎","💎","❤️","❤️","❤️","🃏","🃏"];
+const multipliers={"♠️":1.5,"♦️":2,"💎":2.5,"❤️":3,"🃏":5};
 const playBtn=document.getElementById("play-button");
 const betInput=document.getElementById("bet");
 const bgMusic=document.getElementById("bg-music");
@@ -311,7 +311,7 @@ function tryBonusRound(){
 }
 
 function getBonusSymbol(){
-    const bonusSymbols=["♠️","♦️","🧧","❤️","🃏"];
+    const bonusSymbols=["♠️","♦️","💎","❤️","🃏"];
     return bonusSymbols[Math.floor(Math.random()*bonusSymbols.length)];
 }
 
@@ -483,6 +483,7 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
+
 
 
 
