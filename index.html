@@ -6,32 +6,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Luckiest+Guy&display=swap" rel="stylesheet">
 <style>
-/* === ESTILO GERAL === */
 #bg-video { position: fixed; top:0; left:0; width:100vw; height:100vh; object-fit:cover; z-index:-1; }
 body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; overflow-x:hidden; overflow-y:auto; touch-action:none; min-height:100vh; background:#000; }
 
 /* === LOGO === */
 #logo-container {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin:20px auto 8px auto;
-  border:5px solid gold;
-  border-radius:20px;
-  padding:10px 20px;
-  width:-moz-fit-content;
-  width:fit-content;
-  max-width:98vw;
-  animation:borderGlow 1s infinite alternate;
+  display:flex; justify-content:center; align-items:center;
+  margin:20px auto 8px auto; border:5px solid gold; border-radius:20px;
+  padding:10px 20px; width:-moz-fit-content; width:fit-content;
+  max-width:98vw; animation:borderGlow 1s infinite alternate;
   background:rgba(0,0,0,0.4);
 }
 #logo-text {
-  font-family:'Cinzel Decorative',serif;
-  font-size:54px;
-  font-weight:bold;
-  color:gold;
-  text-shadow:0 0 6px gold,0 0 12px orange;
-  animation:shine 4s infinite linear;
+  font-family:'Cinzel Decorative',serif; font-size:54px; font-weight:bold; color:gold;
+  text-shadow:0 0 6px gold,0 0 12px orange; animation:shine 4s infinite linear;
 }
 @keyframes borderGlow {
   0% {border-color:gold;box-shadow:0 0 10px gold;}
@@ -41,7 +29,7 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
 @keyframes shine {
   0% { text-shadow:0 0 6px gold,0 0 12px orange; }
   50% { text-shadow:0 0 12px gold,0 0 20px orange; transform:scale(1.03); }
-  100% { text-shadow:0 0 6px gold,0 0 12px orange; transform:scale(1); }
+  100% { text-shadow:0 0 6px gold,0 0 12px orange; transform:scale(1);}
 }
 
 /* === AVISO SIMULAÇÃO (DESKTOP) === */
@@ -68,7 +56,6 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
   letter-spacing: 0.01em;
   transition: opacity 0.2s;
 }
-
 @media screen and (max-width:991px) {
   #simulacao-aviso {
     font-size: 0.91rem;
@@ -77,39 +64,6 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
     padding: 12px 11px 12px 13px;
   }
 }
-
-@media screen and (max-width:768px){
-  html { font-size: 15px; }
-  body { font-size: 1em; }
-  #logo-text { font-size:32px; } 
-  #logo-container { margin:10px auto 6px auto; padding:6px 12px; border-width:3px; }
-  #slot { grid-gap:6px; font-size:24px; margin:28px auto 5px auto; width:98vw; max-width:320px; }
-  .slot-cell { padding:9px; font-size:18px; min-height:36px; min-width:36px; border-width:2px; }
-  input#bet { font-size:14px; padding:6px; width:68px; margin-right:5px; } 
-  #play-button { font-size:14px; padding:7px 11px; margin-left:5px; }
-  #message { font-size:12px; margin-top:36px; }
-  #footer { margin:80px auto 10px auto; font-size:10px; position:static !important;}
-  #multiplier-icon { top:20vw; right:5vw; font-size:7vw; }
-  #settings-icon { top:5vw; right:5vw; font-size:7vw; }
-  .button-icon { padding: 2.2vw; }
-  .bonus-round-effect { padding-top: 0; flex-direction: column; }
-  .bonus-gift-icon { font-size: 11vw; }
-  .bonus-title { font-size: 4.5vw; }
-  .bonus-alert-msg { font-size: 1em; padding: 7px 6vw; margin: 7px auto 3px auto; }
-  .modal { width:97vw; min-width:0; max-width:97vw;}
-  .multiplier-bonus-chance { font-size:.95em; padding:7px 6px;}
-  #simulacao-aviso { display: none !important; }
-  #simulacao-aviso-mobile { display: block !important; }
-}
-@media screen and (max-width:430px){
-  html { font-size: 13px; }
-  #logo-text { font-size:20px; }
-  #logo-container { padding:5px 3vw;}
-  .bonus-alert-msg { font-size:.93em; padding:6px 2vw;}
-  .modal { width:99vw;}
-  .multiplier-bonus-chance { font-size:.92em; }
-}
-
 /* === AVISO SIMULAÇÃO (MOBILE) === */
 #simulacao-aviso-mobile {
   display: none;
@@ -130,6 +84,52 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
   opacity: 0.95;
   box-shadow: 0 4px 16px #0000002a;
   z-index: 10;
+}
+
+/* ========== MOBILE AJUSTES ========== */
+@media screen and (max-width:768px){
+  html { font-size: 13px; }
+  body { font-size: 0.98em; }
+  #logo-text { font-size:22px; }
+  #logo-container { margin:8px auto 6px auto; padding:5px 7vw; border-width:2px; }
+  #slot {
+    grid-gap:4px;
+    font-size:14vw;
+    margin:18px auto 5px auto;
+    width:98vw;
+    max-width:320px;
+  }
+  .slot-cell {
+    padding:4vw 0;
+    font-size:14vw;
+    min-height:14vw;
+    min-width:14vw;
+    border-width:2px;
+  }
+  .balance { font-size: 1.06em; margin:7px;}
+  input#bet { font-size:13px; padding:3vw 2vw; width:32vw; margin-right:3vw; }
+  #play-button { font-size:13px; padding:3vw 4vw; margin-left:2vw;}
+  #message { font-size:1em; margin-top:18px;}
+  #footer { margin:24vw auto 6vw auto; font-size:.98em; position:static !important;}
+  #multiplier-icon { top:calc(100vw * 0.28); right:5vw; font-size:9vw; }
+  #settings-icon { top:6vw; right:5vw; font-size:9vw; }
+  .button-icon { padding: 3vw; }
+  .bonus-round-effect { padding-top: 0; flex-direction: column; }
+  .bonus-gift-icon { font-size: 13vw; }
+  .bonus-title { font-size: 5vw; }
+  .bonus-alert-msg { font-size: 1em; padding: 7px 6vw; margin: 7px auto 3px auto; }
+  .modal { width:98vw; min-width:0; max-width:98vw;}
+  .multiplier-bonus-chance { font-size:.95em; padding:7px 6px;}
+  #simulacao-aviso { display: none !important; }
+  #simulacao-aviso-mobile { display: block !important; }
+}
+@media screen and (max-width:430px){
+  html { font-size: 12px; }
+  #logo-text { font-size:15px; }
+  #logo-container { padding:5px 3vw;}
+  .bonus-alert-msg { font-size:.93em; padding:6px 2vw;}
+  .modal { width:99vw;}
+  .multiplier-bonus-chance { font-size:.92em; }
 }
 
 /* === SALDO E APOSTA === */
@@ -184,7 +184,6 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 .win-message { font-size:36px; color:rgb(255, 255, 255); font-weight:bold; text-shadow:2px 2px 10px black,0 0 15px gold,0 0 25px orange; background:rgba(255,215,0,0.3); padding:6px 10px; border-radius:8px; display:inline-block; }
 .lose-message { font-size:28px; color:red; font-weight:bold; text-shadow:2px 2px 6px black,0 0 10px darkred; }
 
-/* Mensagem especial bônus (sóbria e adaptada mobile) */
 .bonus-alert-msg {
   font-family: 'Cinzel Decorative', Arial, sans-serif;
   color: #ffe066;
@@ -280,7 +279,6 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
   letter-spacing:1.5px;
   animation: none;
 }
-
 </style>
 </head>
 <body>
@@ -347,14 +345,12 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 </div>
 
 <div id="footer">📚 Projeto escolar - FAETEC</div>
-<!-- AVISO SIMULAÇÃO DESKTOP -->
 <div id="simulacao-aviso">
     <span>
         <b>Atenção:</b> Isso é uma <b>simulação de cassino</b> criada para experiências educacionais.<br>
         Por favor, <b>não aposte de verdade</b> e jogue com responsabilidade.
     </span>
 </div>
-<!-- AVISO SIMULAÇÃO MOBILE -->
 <div id="simulacao-aviso-mobile">
     <b>Atenção:</b> Isso é uma <b>simulação de cassino</b> para experiências educacionais.<br>
     Por favor, <b>não aposte de verdade</b> e jogue com responsabilidade.
@@ -386,8 +382,6 @@ function toggleBgMusic(){
     else bgMusic.pause();
     settingsIcon.innerText=musicOn?"🎵":"🔇";
 }
-
-// Silenciar/ativar todos efeitos de som, exceto música de fundo
 function toggleAllSounds(){
     spinOn = !spinOn;
     winOn = !winOn;
@@ -395,24 +389,19 @@ function toggleAllSounds(){
     const btn = document.getElementById("toggle-all-sounds");
     btn.innerText = (spinOn && winOn && bonusOn) ? "🔇 Silenciar Efeitos" : "🔊 Ativar Efeitos";
 }
-
 function checkBet(){
     const bet=parseInt(betInput.value);
     playBtn.disabled = spinning || !bet || bet>balance;
 }
-
 function getRandomSymbol(){ return weightedSymbols[Math.floor(Math.random()*weightedSymbols.length)]; }
-
 function tryBonusRound(){
     if(typeof forceBonus !== "undefined" && forceBonus) return true;
     return Math.random() < 0.12;
 }
-
 function getBonusSymbol(){
     const bonusSymbols=["♠️","♦️","💎","❤️","🃏"];
     return bonusSymbols[Math.floor(Math.random()*bonusSymbols.length)];
 }
-
 function generateBonusRoundResult(){
     const symbol = getBonusSymbol();
     let result = new Array(9).fill("");
@@ -430,13 +419,11 @@ function generateBonusRoundResult(){
     }
     return result;
 }
-
 function showBonusRoundEffect(){
     bonusRoundEffect.style.display="flex";
     if(bonusOn && bonusSound){ bonusSound.currentTime=0; bonusSound.play().catch(()=>{});}
     setTimeout(()=>{ bonusRoundEffect.style.display="none"; }, 1500);
 }
-
 function showBonusAlertMessage(){
     let oldMsg = document.getElementById("bonus-alert-msg");
     if(oldMsg) oldMsg.remove();
@@ -448,7 +435,6 @@ function showBonusAlertMessage(){
     slotDiv.parentNode.insertBefore(bonusMsg, slotDiv);
     setTimeout(()=>{ bonusMsg.remove(); }, 2000);
 }
-
 function play(){
     if(spinning) return;
     const bet=parseInt(betInput.value);
@@ -510,7 +496,6 @@ function play(){
         }
     },150);
 }
-
 function stopColumn(col,finalResult,isBonusRound){
     const slotCells=document.querySelectorAll(".slot-cell");
     for(let row=0;row<3;row++){
@@ -529,7 +514,6 @@ function stopColumn(col,finalResult,isBonusRound){
         setTimeout(()=>slotCells[idx].classList.remove("slot-stop"),400);
     }
 }
-
 function checkWin(finalResult,bet,messageDiv,winSound,isBonusRound,bonusSuperWin){
     const lines=[[0,1,2],[3,4,5],[6,7,8],[0,4,8],[2,4,6]];
     const winLines=[];
@@ -569,13 +553,10 @@ function checkWin(finalResult,bet,messageDiv,winSound,isBonusRound,bonusSuperWin
     document.getElementById("balance").innerText=balance;
     spinning=false; checkBet();
 }
-
 betInput.addEventListener("input",checkBet);
 checkBet();
-
 function showModal(id){ document.getElementById(id).style.display="block"; }
 function closeModal(id){ document.getElementById(id).style.display="none"; }
-
 function isMobile(){ return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
 if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
