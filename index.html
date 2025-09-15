@@ -335,6 +335,7 @@ function generateBonusRoundResult(){
 
 function showBonusRoundEffect(){
     bonusRoundEffect.style.display="flex";
+    if(bonusOn && bonusSound){ bonusSound.currentTime=0; bonusSound.play().catch(()=>{});}
     setTimeout(()=>{ bonusRoundEffect.style.display="none"; }, 1500);
 }
 
@@ -482,6 +483,7 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
+
 
 
 
