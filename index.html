@@ -128,82 +128,51 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
     text-align:center;
 }
 
-/* === BONUS OVERLAY === */
+/* === BONUS OVERLAY (mais sóbrio) === */
 .bonus-round-effect {
     position: fixed;
     inset: 0;
     z-index: 101;
     pointer-events: none;
-    animation: bonusFlash 2.2s linear forwards;
-    background: radial-gradient(circle at 50% 55%, rgba(255,248,183,0.85) 38%, rgba(255,196,76,0.33) 75%, transparent 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    background: radial-gradient(circle at 50% 60%, rgba(220,200,100,0.18) 0%, rgba(0,0,0,0.07) 80%, transparent 100%);
+    animation: bonusFade 1.5s cubic-bezier(.62,0,.35,1);
+    backdrop-filter: blur(2px);
 }
-@keyframes bonusFlash {
+@keyframes bonusFade {
     0% { opacity: 0; }
-    10% { opacity: 1; }
-    78% { opacity: 1; }
+    15% { opacity: 0.92;}
+    60% { opacity: 0.8;}
     100% { opacity: 0; }
 }
 .bonus-gift-icon {
-    font-size: 120px;
-    filter: drop-shadow(0 0 40px gold) drop-shadow(0 0 18px #ffb300);
-    animation: giftPop 1.4s cubic-bezier(.07,1.18,.36,.99);
-    z-index: 102 !important;
-}
-@keyframes giftPop {
-    0% { transform: scale(0.2) rotate(-20deg);}
-    20% { transform: scale(1.15) rotate(12deg);}
-    45% { transform: scale(1) rotate(-6deg);}
-    65% { transform: scale(1.12) rotate(0deg);}
-    100% { transform: scale(0.85) rotate(0deg); opacity: 0.5;}
+    font-size: 64px;
+    filter: drop-shadow(0 0 10px #ffe066b8);
+    opacity: 0.85;
+    animation: none;
 }
 .bonus-title {
     font-family:'Cinzel Decorative',serif;
-    font-size:42px;
+    font-size: 26px;
     font-weight:bold;
-    color:#fff;
-    margin-top:10px;
-    text-shadow:0 0 18px #eab308, 0 0 32px #fff176, 2px 2px 10px #ff9800;
-    letter-spacing:2px;
-    animation: bonusTitleAnim 1.3s cubic-bezier(.07,1.18,.36,.99);
-    z-index: 102 !important;
-}
-@keyframes bonusTitleAnim {
-    0% { opacity:0; transform:translateY(30px) scale(0.85);}
-    20% { opacity:1; transform:translateY(0) scale(1.1);}
-    100% {opacity:1; transform:scale(1);}
-}
-.bonus-glitter {
-    position: absolute;
-    pointer-events: none;
-    z-index: 102;
-    animation: glitterFade 2.2s linear forwards;
-}
-@keyframes glitterFade {
-    0% { opacity:0; }
-    10% { opacity:1; }
-    90% { opacity:1; }
-    100% { opacity:0; }
+    color:#ffe066;
+    margin-top:12px;
+    text-shadow:0 0 4px #444, 0 1px 18px #ffe066cc;
+    letter-spacing:1.5px;
+    animation: none;
 }
 
-/* === MOBILE ADAPTATION === */
+/* Mobile tweaks */
 @media screen and (max-width:768px){
-    #logo-text { font-size:32px; } 
-    #logo-container { margin:10px auto 6px auto; padding:6px 12px; border-width:3px; }
-    #slot { grid-gap:6px; font-size:30px; margin:40px auto 10px auto; width:98vw; max-width:340px; }
-    .slot-cell { padding:10px; font-size:20px; min-height:40px; min-width:40px; border-width:2px; }
-    input#bet { font-size:14px; padding:6px; width:88px; margin-right:5px; } 
-    #play-button { font-size:15px; padding:8px 14px; margin-left:5px; }
-    #message { font-size:13px; margin-top:70px; }
-    #footer { position:relative; margin:90px auto 15px auto; font-size:11px; position:static !important;}
-    #multiplier-icon { top:60px; right:8px; }
-    #settings-icon { top:8px; right:8px; }
-    .bonus-round-effect { padding-top: 0; flex-direction: column; }
-    .bonus-gift-icon { font-size: 48vw; min-font-size: 54px; max-font-size: 120px;}
-    .bonus-title { font-size: 8vw; min-font-size: 22px; max-font-size: 34px; }
+    .bonus-round-effect {
+        background: radial-gradient(circle at 50% 60%, rgba(220,200,100,0.16) 0%, rgba(0,0,0,0.05) 80%, transparent 100%);
+        backdrop-filter: blur(1.2px);
+    }
+    .bonus-gift-icon { font-size: 13vw; }
+    .bonus-title { font-size: 5vw; }
     .bonus-alert-msg { font-size: 1em; padding: 7px 6vw; margin: 7px auto 3px auto; }
     .modal { width:98vw; min-width:0; max-width:98vw;}
     .multiplier-bonus-chance { font-size:.95em; padding:7px 6px;}
@@ -283,7 +252,7 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 <div id="footer">📚 Projeto escolar - FAETEC</div>
 
 <div id="bonus-round-effect" class="bonus-round-effect" style="display:none;">
-    <span class="bonus-gift-icon">🎁✨</span>
+    <span class="bonus-gift-icon">🎁</span>
     <div class="bonus-title">RODADA BÔNUS!</div>
 </div>
 
@@ -353,25 +322,9 @@ function generateBonusRoundResult(){
     return result;
 }
 
-function spawnGlitterBurst(){
-    for(let i=0;i<18;i++){
-        const s = document.createElement("span");
-        s.className = "bonus-glitter";
-        s.innerText = "✨";
-        s.style.left = (Math.random()*100)+"vw";
-        s.style.top = (28+Math.random()*30)+"vh";
-        s.style.fontSize = (18+Math.random()*32)+"px";
-        s.style.opacity = 0.7 + 0.3*Math.random();
-        document.body.appendChild(s);
-        setTimeout(()=>{ s.remove(); }, 2100);
-    }
-}
-
 function showBonusRoundEffect(){
     bonusRoundEffect.style.display="flex";
-    spawnGlitterBurst();
-    if(bonusOn && bonusSound){ bonusSound.currentTime=0; bonusSound.play().catch(()=>{});}
-    setTimeout(()=>{ bonusRoundEffect.style.display="none"; }, 2000);
+    setTimeout(()=>{ bonusRoundEffect.style.display="none"; }, 1500);
 }
 
 function showBonusAlertMessage(){
