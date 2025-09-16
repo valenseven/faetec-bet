@@ -58,36 +58,30 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
     transition: opacity 0.2s;
 }
 
-@media screen and (max-width:991px) {
-    #simulacao-aviso {
-        font-size: 0.91rem;
-        width: 230px;
-        max-width: 60vw;
-        padding: 12px 11px 12px 13px;
-    }
+/* Ajustes mobile para emojis nos slots */
+@media screen and (max-width:768px){
+  #slot { 
+    font-size:38px; /* tamanho base dos emojis */
+  }
+  .slot-cell { 
+    font-size:38px; /* aumenta emojis */
+    min-width:58px; 
+    min-height:58px;
+    padding:16px; 
+  }
 }
 
-@media screen and (max-width:768px){
-    html { font-size: 15px; }
-    body { font-size: 1em; }
-    #logo-text { font-size:32px; } 
-    #logo-container { margin:10px auto 6px auto; padding:6px 12px; border-width:3px; }
-    
-    /* Ajuste dos slots */
-    #slot { 
-      grid-gap:8px; 
-      font-size:32px; /* maior que antes */
-      margin:20px auto 5px auto; 
-      width:98vw; 
-      max-width:360px; 
-    }
-    .slot-cell { 
-      padding:14px; 
-      font-size:26px; 
-      min-height:50px; 
-      min-width:50px; 
-      border-width:3px; 
-    }
+@media screen and (max-width:430px){
+  #slot { 
+    font-size:34px; /* base menor para telas pequenas */
+  }
+  .slot-cell { 
+    font-size:34px; 
+    min-width:54px; 
+    min-height:54px;
+    padding:14px; 
+  }
+}
 
     input#bet { font-size:14px; padding:6px; width:68px; margin-right:5px; } 
     #play-button { font-size:14px; padding:7px 11px; margin-left:5px; }
@@ -598,3 +592,4 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
+
