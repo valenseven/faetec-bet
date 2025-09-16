@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=0.7, maximum-scale=1.0, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Luckiest+Guy&display=swap" rel="stylesheet">
 <style>
-/* === ESTILO GERAL === */
+/* === ESTILO === */
 #bg-video { position: fixed; top:0; left:0; width:100vw; height:100vh; object-fit:cover; z-index:-1; }
 body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; overflow-x:hidden; overflow-y:auto; touch-action:none; min-height:100vh; background:#000; }
 
@@ -33,7 +33,7 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
   100% { text-shadow:0 0 6px gold,0 0 12px orange; transform:scale(1); }
 }
 
-/* === AVISO SIMULAÇÃO (DESKTOP) === */
+/* === SIMULAÇÃO P PC === */
  #simulacao-aviso {
     position: fixed;
     top: 55%;
@@ -58,7 +58,7 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
     transition: opacity 0.2s;
 }
 
-/* Ajustes mobile para emojis nos slots */
+/* emojis do mobile */
 @media screen and (max-width:768px){
   #slot { 
     font-size:38px; /* tamanho base dos emojis */
@@ -73,7 +73,7 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
 
 @media screen and (max-width:430px){
   #slot { 
-    font-size:34px; /* base menor para telas pequenas */
+    font-size:34px; /* base menor p telas pequenas */
   }
   .slot-cell { 
     font-size:34px; 
@@ -104,7 +104,7 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
     #logo-text { font-size:20px; }
     #logo-container { padding:5px 3vw;}
 
-    /* Ajuste slots para telas bem pequenas */
+    /* ajuste slots pra telas menores ainda */
     #slot { 
       grid-gap:6px; 
       font-size:28px; 
@@ -122,7 +122,7 @@ body { font-family: Arial,sans-serif; text-align:center; color:#fff; margin:0; o
     .multiplier-bonus-chance { font-size:.92em; }
 }
 
-/* === AVISO SIMULAÇÃO (MOBILE) === */
+/* === SIMULAÇÃO MOBILE === */
 #simulacao-aviso-mobile {
     display: none;
     background: rgba(24,24,24,0.86);
@@ -196,7 +196,7 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
 .win-message { font-size:36px; color:rgb(255, 255, 255); font-weight:bold; text-shadow:2px 2px 10px black,0 0 15px gold,0 0 25px orange; background:rgba(255,215,0,0.3); padding:6px 10px; border-radius:8px; display:inline-block; }
 .lose-message { font-size:28px; color:red; font-weight:bold; text-shadow:2px 2px 6px black,0 0 10px darkred; }
 
-/* Mensagem especial bônus (sóbria e adaptada mobile) */
+/* mensagem especial bonus */
 .bonus-alert-msg {
     font-family: 'Cinzel Decorative', Arial, sans-serif;
     color: #ffe066;
@@ -223,7 +223,6 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
     100% { opacity:1; transform:scale(1) translateY(0);}
 }
 
-/* === FOOTER === */
 #footer { position:fixed; bottom:20px; right:10px; font-size:13px; color:white; text-shadow:1px 1px 3px black; z-index:40; }
 
 /* === BOTOES FLUTUANTES === */
@@ -256,7 +255,7 @@ button:disabled { cursor:not-allowed; opacity:0.5; background:gray; }
     text-align:center;
 }
 
-/* === BONUS OVERLAY (mais sóbrio) === */
+/* === BONUS OVERLAY === */
 .bonus-round-effect {
     position: fixed;
     inset: 0;
@@ -398,7 +397,7 @@ function toggleBgMusic(){
     settingsIcon.innerText=musicOn?"🎵":"🔇";
 }
 
-// Silenciar/ativar todos efeitos de som, exceto música de fundo
+// mute
 function toggleAllSounds(){
     spinOn = !spinOn;
     winOn = !winOn;
@@ -592,4 +591,5 @@ if(isMobile()){ document.body.classList.add("mobile-layout"); }
 </script>
 </body>
 </html>
+
 
